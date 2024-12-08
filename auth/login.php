@@ -1,7 +1,7 @@
 <?php
 require '../includes/config.php';
 
-// Start session at the beginning
+// Start session
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -20,19 +20,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $user = $result->fetch_assoc();
 
             // Compare the entered password with the stored password
-            if ($password === $user['password']) { // No hashing used here as per your request
-                // Store user information in session
-                $_SESSION['user_id'] = $user['id'];  // Store user ID
-                $_SESSION['role'] = $user['role'];   // Store user role
-                $_SESSION['fullname'] = $user['fullname']; // Store user name for personalization
+            if ($password === $user['password']) { 
 
-                // Redirect based on user role
-                if ($user['role'] === 'admin') {
-                    header("Location: ../admin/dashboard.php");  // Admin dashboard
-                } elseif ($user['role'] === 'student') {
-                    header("Location: ../student/dashboard.php"); // Student dashboard
+                // Store user information in session
+                $_SESSION['user_id'] = $user['id'];  
+                $_SESSION['role'] = $user['role'];   
+                $_SESSION['fullname'] = $user['fullname']; 
+
+                if ($user['role'] === 'student') {
+                    $_SESSION['student_email'] = $user['email']; 
+                    header("Location: ../student/dashboard.php");
+                } elseif ($user['role'] === 'admin') {
+                    header("Location: ../admin/dashboard.php");
                 } elseif ($user['role'] === 'librarian') {
-                    header("Location: ../librarian/dashboard.php"); // librarian dashboard
+                    header("Location: ../librarian/dashboard.php");
                 } 
                 exit;
             } else {
@@ -46,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             </div>
             <button type="submit" class="btn btn-primary btn-block">Login</button>
         </form>
-        <p class="text-center mt-3">Don't have an account? <a href="signup.php">Sign Up here</a></p>
+        <p class="text-center">Don't have an account? <a href="signup.php">Sign Up here</a></p>
     </div>
 </body>
 </html>

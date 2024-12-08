@@ -4,30 +4,24 @@ require '../includes/config.php';
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve form data
-    $fullname = $_POST['fullname'];
-    $email = $_POST['email'];
-    $role = $_POST['role'];
-    $phone = $_POST['phone'];
-    $password = $_POST['password']; // Plain password from form
+    $fullname = mysqli_real_escape_string($conn, $_POST['fullname']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $role = mysqli_real_escape_string($conn, $_POST['role']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']); 
 
     // Check if password is provided
     if (empty($password)) {
-        die("<script>alert('Password cannot be empty'); window.history.back();</script>");
+        echo "<script>alert('Password cannot be empty'); window.history.back();</script>";
+        exit;
     }
 
-    // Sanitize inputs to avoid SQL injection
-    $fullname = mysqli_real_escape_string($conn, $fullname);
-    $email = mysqli_real_escape_string($conn, $email);
-    $role = mysqli_real_escape_string($conn, $role);
-    $phone = mysqli_real_escape_string($conn, $phone);
-    $password = mysqli_real_escape_string($conn, $password); // Plain password sanitized
-
-    // Prepare and execute the query
+    // Insert data into database
     $stmt = $conn->prepare("INSERT INTO usersss (fullname, email, role, password, phone) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param('sssss', $fullname, $email, $role, $password, $phone);
 
     if ($stmt->execute()) {
-        echo "<script>alert('User successfully added!'); window.location.href='adashboard.php';</script>";
+        echo "<script>alert('User added successfully!'); window.location.href='dashboard.php';</script>";
     } else {
         echo "<script>alert('Error: " . $stmt->error . "');</script>";
     }
@@ -42,20 +36,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Management System - Admin Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> -->
+    <title>Library Management - Admin</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <div class="container">
         <aside class="sidebar">
             <h1>Library Admin</h1>
             <nav>
-            <ul>
-                    <li><a href="dashboard.php" class="active">Dashboard</a></li>
-                    <li><a href="adduser.php">Users</a></li>
-                    <li><a href="add_books.php">AddBooks</a></li>
-                    <li><a href="displaybooks.php">Books Details</a></li>
+                <ul>
+                    <li><a href="dashboard.php">Dashboard</a></li>
+                    <li><a href="adduser.php">Add Users</a></li>
+                    <li><a href="add_books.php">Add Books</a></li>
+                    <li><a href="displaybooks.php">View Books</a></li>
                     <li><a href="#">Reports</a></li>
                     <li><a href="#">Settings</a></li>
                 </ul>
@@ -63,51 +56,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </aside>
         <main class="main-content">
             <header class="dashboard-header">
-            <h2 class="text-center">Add New User</h2>
+                <h2>Add New User</h2>
             </header>
-            <div class="container mt-5">
-        
-        <form method="POST">
-            <!-- Full Name -->
-            <div class="mb-3">
-                <label for="fullname">Full Name</label>
-                <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter your full name" required>
-            </div>
-
-            <!-- Email -->
-            <div class="mb-3">
-                <label for="email" class="form-label">Email Address</label>
-                <input type="email" name="email" class="form-control" id="email" placeholder="Enter email" required>
-            </div>
-
-            <!-- Role -->
-            <div class="mb-3">
-                <label for="role" class="form-label">Select Role</label>
-                <select class="form-control" name="role" id="role" required>
-                    <option value="Librarian">Librarian</option>
-                    <option value="student" selected>Student</option>
-                </select>
-            </div>
-
-            <!-- Phone -->
-            <div class="mb-3">
-                <label for="phone" class="form-label">Phone Number</label>
-                <input type="text" name="phone" class="form-control" id="phone" placeholder="Enter phone number" required>
-            </div>
-
-            <!-- Password -->
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" name="password" class="form-control" id="password" placeholder="Enter password" required>
-            </div>
-
-            <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary btn-block">Add User</button>
-        </form>
-    </div>
-
-    <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <form method="POST" class="form">
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" class="form-control" name="fullname" id="fullname" placeholder="Full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select class="form-control" name="role" id="role" required>
+                        <option value="Librarian">Librarian</option>
+                        <option value="Student" selected>Student</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add User</button>
+            </form>
         </main>
     </div>
+    <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
