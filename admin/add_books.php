@@ -40,7 +40,8 @@ if (isset($_POST['submit'])) {
                     <li><a href="dashboard.php" class="active">Dashboard</a></li>
                     <li><a href="adduser.php">Add Users</a></li>
                     <li><a href="add_books.php">Add Books</a></li>
-                    <li><a href="displaybooks.php">View Books</a></li>
+                    <li><a href="displaybooks.php">Manage Books</a></li>
+                    <li><a href="managelibrarian.php">Manage Librarian</a></li>
                     <li><a href="#">Reports</a></li>
                     <li><a href="#">Settings</a></li>
                 </ul>

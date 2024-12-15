@@ -48,7 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <li><a href="dashboard.php">Dashboard</a></li>
                     <li><a href="adduser.php">Add Users</a></li>
                     <li><a href="add_books.php">Add Books</a></li>
-                    <li><a href="displaybooks.php">View Books</a></li>
+                    <li><a href="displaybooks.php">Manage Books</a></li>
+                    <li><a href="managelibrarian.php">Manage Librarian</a></li>
                     <li><a href="#">Reports</a></li>
                     <li><a href="#">Settings</a></li>
                 </ul>
@@ -56,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </aside>
         <main class="main-content">
             <header class="dashboard-header">
-                <h2>Add New User</h2>
+                <h2 class="text-center">Add New User</h2>
             </header>
             <form method="POST" class="form">
                 <div class="form-group">

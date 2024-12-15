@@ -32,7 +32,7 @@ if (isset($_GET['update_id'])) {
         $updateQuery = "UPDATE boooks SET title='$title', ISBN='$ISBN', authors='$authors', status='$status', quantity=$quantity WHERE b_id = $update_id";
         if (mysqli_query($conn, $updateQuery)) {
             echo "<script>alert('Book updated successfully');</script>";
-            header('Location: display.php');
+            header('Location: displaybooks.php');
         } else {
             echo "<script>alert('Error updating book');</script>";
         }
@@ -61,7 +61,8 @@ $result = mysqli_query($conn, $booksQuery);
                 <li><a href="dashboard.php">Dashboard</a></li>
                 <li><a href="adduser.php">Add Users</a></li>
                 <li><a href="add_books.php">Add Books</a></li>
-                <li><a href="displaybooks.php">View Books</a></li>
+                <li><a href="displaybooks.php">Manage Books</a></li>
+                <li><a href="managelibrarian.php">Manage Librarian</a></li>
                 <li><a href="#">Reports</a></li>
                 <li><a href="#">Settings</a></li>
             </ul>
@@ -69,7 +70,7 @@ $result = mysqli_query($conn, $booksQuery);
     </aside>
 
     <div class="container1">
-        <h4 class="mt-5">Book Details</h4>
+        <h4 class="text">Book Details</h4>
         <table class="table-bordered">
                 <tr>
                     <th>Book ID</th>
