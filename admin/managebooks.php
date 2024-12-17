@@ -33,14 +33,47 @@ if (isset($_GET['update_id'])) {
         if (mysqli_query($conn, $updateQuery)) {
             echo "<script>alert('Book updated successfully');</script>";
             header('Location: displaybooks.php');
+            exit;
         } else {
             echo "<script>alert('Error updating book');</script>";
         }
     }
 }
 
+// Handle borrow operation (decrease book quantity)
+if (isset($_GET['borrow_id'])) {
+    $borrow_id = $_GET['borrow_id'];
+
+    // Check current quantity
+    $query = "SELECT quantity FROM boooks WHERE b_id = $borrow_id";
+    $result = mysqli_query($conn, $query);
+    $book = mysqli_fetch_assoc($result);
+
+    if ($book['quantity'] > 0) {
+        $new_quantity = $book['quantity'] - 1;
+        $new_status = ($new_quantity == 0) ? 'Unavailable' : 'Available';
+
+        // Update quantity and status
+        $updateQuery = "UPDATE boooks SET quantity=$new_quantity, status='$new_status' WHERE b_id = $borrow_id";
+        if (mysqli_query($conn, $updateQuery)) {
+            echo "<script>alert('Book borrowed successfully');</script>";
+        } else {
+            echo "<script>alert('Error borrowing book');</script>";
+        }
+    } else {
+        echo "<script>alert('This book is currently unavailable');</script>";
+    }
+}
+
+// Handle search
+$searchQuery = "";
+if (isset($_POST['search'])) {
+    $searchTerm = mysqli_real_escape_string($conn, $_POST['search']);
+    $searchQuery = "WHERE title LIKE '%$searchTerm%' AND status = 'Available'";
+}
+
 // Fetch all books
-$booksQuery = "SELECT * FROM boooks";
+$booksQuery = "SELECT * FROM boooks $searchQuery";
 $result = mysqli_query($conn, $booksQuery);
 ?>
 
@@ -61,26 +94,33 @@ $result = mysqli_query($conn, $booksQuery);
                 <li><a href="dashboard.php">Dashboard</a></li>
                 <li><a href="adduser.php">Add Users</a></li>
                 <li><a href="add_books.php">Add Books</a></li>
-                <li><a href="displaybooks.php">Manage Books</a></li>
+                <li><a href="managebooks.php">Manage Books</a></li>
                 <li><a href="managelibrarian.php">Manage Librarian</a></li>
                 <li><a href="#">Reports</a></li>
                 <li><a href="#">Settings</a></li>
             </ul>
         </nav>
     </aside>
-
     <div class="container1">
-        <h4 class="text">Book Details</h4>
+        <!-- Search Box -->
+        <form method="POST" class="search-box">
+            <input type="text" name="search" placeholder="Search available books" value="<?= isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '' ?>" class="search-input">
+            <button type="submit" class="search-btn">
+                <img src="../assets/icons/search-icon.png" alt="Search">
+            </button>
+        </form>
+
+        <h4 class="text">List of Books</h4>
         <table class="table-bordered">
-                <tr>
-                    <th>Book ID</th>
-                    <th>Title</th>
-                    <th>ISBN</th>
-                    <th>Authors</th>
-                    <th>Status</th>
-                    <th>Quantity</th>
-                    <th>Actions</th>
-                </tr>
+            <tr>
+                <th>Book ID</th>
+                <th>Title</th>
+                <th>ISBN</th>
+                <th>Authors</th>
+                <th>Status</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+            </tr>
             <tbody>
                 <?php while ($row = mysqli_fetch_assoc($result)): ?>
                     <?php if ($row['quantity'] == 0) $row['status'] = 'Unavailable'; ?>

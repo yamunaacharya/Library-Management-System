@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <li><a href="dashboard.php">Dashboard</a></li>
                     <li><a href="adduser.php">Add Users</a></li>
                     <li><a href="add_books.php">Add Books</a></li>
-                    <li><a href="displaybooks.php">Manage Books</a></li>
+                    <li><a href="managebooks.php">Manage Books</a></li>
                     <li><a href="managelibrarian.php">Manage Librarian</a></li>
                     <li><a href="#">Reports</a></li>
                     <li><a href="#">Settings</a></li>

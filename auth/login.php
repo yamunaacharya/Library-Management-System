@@ -8,9 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Validate email format and ensure fields are not empty
     if (!empty($email) && !empty($password) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        // Prepare SQL query to prevent SQL injection
+        
         $stmt = $conn->prepare("SELECT * FROM usersss WHERE email = ? LIMIT 1");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -19,18 +18,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
 
-            // Compare the entered password with the stored password
             if ($password === $user['password']) { 
 
                 // Store user information in session
                 $_SESSION['user_id'] = $user['id'];  
                 $_SESSION['role'] = $user['role'];   
-                $_SESSION['fullname'] = $user['fullname']; 
+                $_SESSION['fullname'] = $user['fullname'];
+
 
                 if ($user['role'] === 'student') {
                     $_SESSION['student_email'] = $user['email']; 
                     header("Location: ../student/dashboard.php");
                 } elseif ($user['role'] === 'admin') {
+                    $_SESSION['admin_email'] = $user['email'];
                     header("Location: ../admin/dashboard.php");
                 } elseif ($user['role'] === 'librarian') {
                     header("Location: ../librarian/dashboard.php");
