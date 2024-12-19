@@ -55,8 +55,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<nav class="navbar">
+        <div class="logo">LibraryHub</div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Catalog</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+    </nav>
     <div class="container mt-5">
         <h1 class="text-center">Login</h1>
         <form method="POST" action="">

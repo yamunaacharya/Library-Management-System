@@ -59,6 +59,145 @@
       background-color: white;
       width: 12px;
     }
+    /* Footer Styles */
+.footer {
+  background-color: #080808;
+  color: #f9fafb;
+  padding: 32px 16px;
+  font-size: 14px;
+}
+
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.footer-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: space-between;
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-heading {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #fbbf24;
+}
+
+.footer-column p {
+  margin: 0 0 8px;
+  line-height: 1.6;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: 8px;
+}
+
+.footer-links a {
+  color: #9ca3af;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #fbbf24;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 32px;
+  border-top: 1px solid #080808;
+  padding-top: 16px;
+}
+
+.footer-bottom p {
+  margin: 0;
+  color: #9ca3af;
+}
+.navbar .auth-buttons a {
+    color: white;
+    text-decoration: none;
+    background-color: #007BFF;
+    padding: 8px 10px;
+    border-radius: 5px;
+    margin: 0 5px;
+    font-size: 16px;
+}
+
+.navbar .auth-buttons a:hover {
+    background-color: #0056b3;
+}
+.features {
+    padding: 3rem 2rem;
+    text-align: center;
+    background-color: #fff;
+}
+
+.features h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.feature-item {
+    display: inline-block;
+    width: 30%;
+    padding: 1rem;
+    margin: 1rem;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feature-item img {
+    max-width: 50px;
+    margin-bottom: 1rem;
+}
+
+.feature-item h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.feature-item p {
+    font-size: 1rem;
+}
+
+/* Footer Section */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+}
+
+footer .footer-links a {
+    color: white;
+    margin: 0 1rem;
+    text-decoration: none;
+}
+
+footer .footer-links a:hover {
+    text-decoration: underline;
+}
+
+footer p {
+    margin-top: 1rem;
+}
+
+
   </style>
 </head>
 <body>
@@ -110,6 +249,10 @@
         </div>
       </div>
     </div>
+    <div class="auth-buttons">
+      <a href="login.php" class="login-btn">Login</a>
+      <a href="signup.php" class="signup-btn">Sign Up</a>
+  </div>
   </nav>
 
   <div id="carouselExample" class="carousel slide position-relative">
@@ -192,6 +335,72 @@
       ></button>
     </div>
   </div>
+
+  <section class="features" id="features">
+    <h2>Key Features</h2>
+    <div class="feature-item">
+        <img src="catalog-icon.png" alt="Catalog Management">
+        <h3>Catalog Management</h3>
+        <p>Easily organize books, journals, and articles.</p>
+    </div>
+    <div class="feature-item">
+        <img src="user-icon.png" alt="User Management">
+        <h3>User Management</h3>
+        <p>Track users, manage book loans, and handle fines.</p>
+    </div>
+    <div class="feature-item">
+        <img src="analytics-icon.png" alt="Reports & Analytics">
+        <h3>Reports & Analytics</h3>
+        <p>Generate detailed reports and track activity.</p>
+    </div>
+    <div class="feature-item">
+        <img src="reservation-icon.png" alt="Book Reservation">
+        <h3>Book Reservation</h3>
+        <p>Allow users to reserve books online and get notified when available.</p>
+    </div>
+    <div class="feature-item">
+        <img src="search-icon.png" alt="Advanced Search">
+        <h3>Advanced Search</h3>
+        <p>Search books by title, author, genre, and more with an advanced filter.</p>
+    </div>
+    <div class="feature-item">
+        <img src="notification-icon.png" alt="Notifications & Alerts">
+        <h3>Notifications & Alerts</h3>
+        <p>Send automatic reminders for due dates and book availability.</p>
+    </div>
+</section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-columns">
+        <div class="footer-column">
+          <h3 class="footer-heading">About Us</h3>
+          <p>
+            We are a modern library management system providing seamless access to books, journals, and more.
+          </p>
+        </div>
+        <div class="footer-column">
+          <h3 class="footer-heading">Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Catalog</a></li>
+            <li><a href="#">Membership</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3 class="footer-heading">Contact</h3>
+          <p>Itahari,Sunsari</p>
+          <p>Email: lms222@ gmail.com</p>
+          <p>Phone: 9811330200</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Library Management System. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+  
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
