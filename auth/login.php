@@ -1,16 +1,18 @@
 <?php
-require '../includes/config.php';
+require '../includes/config.php'; // Include your database configuration
 
 // Start session
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $email = $_POST['email'];
+    // Get email and password from POST data
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
 
+    // Validate inputs
     if (!empty($email) && !empty($password) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        
-        $stmt = $conn->prepare("SELECT * FROM usersss WHERE email = ? LIMIT 1");
+        // Fetch user data based on the email
+        $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -18,32 +20,37 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
 
-            if ($password === $user['password']) { 
-
-                // Store user information in session
-                $_SESSION['user_id'] = $user['id'];  
-                $_SESSION['role'] = $user['role'];   
+            // Compare the plain text password
+            if ($password === $user['password']) {
+                // Set session variables
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['role'] = strtolower($user['role']);
                 $_SESSION['fullname'] = $user['fullname'];
 
-
-                if ($user['role'] === 'student') {
-                    $_SESSION['student_email'] = $user['email']; 
-                    header("Location: ../student/dashboard.php");
-                } elseif ($user['role'] === 'admin') {
-                    $_SESSION['admin_email'] = $user['email'];
-                    header("Location: ../admin/dashboard.php");
-                } elseif ($user['role'] === 'librarian') {
-                    header("Location: ../librarian/dashboard.php");
-                } 
+                // Redirect based on user role
+                switch ($_SESSION['role']) {
+                    case 'student':
+                        header("Location: ../student/dashboard.php");
+                        break;
+                    case 'admin':
+                        header("Location: ../admin/dashboard.php");
+                        break;
+                    case 'librarian':
+                        header("Location: ../librarian/dashboard.php");
+                        break;
+                    default:
+                        $error_message = "Unknown role. Please contact support.";
+                        break;
+                }
                 exit;
             } else {
-                echo "<script>alert('Incorrect password');</script>";
+                $error_message = "Incorrect password.";
             }
         } else {
-            echo "<script>alert('User not found');</script>";
+            $error_message = "Email not found.";
         }
     } else {
-        echo "<script>alert('Invalid email or password format');</script>";
+        $error_message = "Invalid email or password format.";
     }
 }
 ?>
@@ -58,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<nav class="navbar">
+    <nav class="navbar">
         <div class="logo">LibraryHub</div>
         <ul class="nav-links">
             <li><a href="#">Home</a></li>
@@ -67,8 +74,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             <li><a href="#">About</a></li>
         </ul>
     </nav>
+
     <div class="container mt-5">
         <h1 class="text-center">Login</h1>
+        
+        <?php if (isset($error_message)): ?>
+            <div class="alert alert-danger text-center">
+                <?php echo $error_message; ?>
+            </div>
+        <?php endif; ?>
+
         <form method="POST" action="">
             <div class="form-group">
                 <label for="email">Email Address</label>
@@ -80,7 +95,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             </div>
             <button type="submit" class="btn btn-primary btn-block">Login</button>
         </form>
+
         <p class="text-center">Don't have an account? <a href="signup.php">Sign Up here</a></p>
+        <p class="text-center"><a href="forgot-password.php">Forgot password?</a></p>
     </div>
 </body>
 </html>

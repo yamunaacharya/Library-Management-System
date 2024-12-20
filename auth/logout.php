@@ -12,7 +12,7 @@ if (isset($conn)) {
     $conn->close();
 }
 
-header("Location: ../login.php");
+header("Location: ../auth/index.php");
 exit;
 ?>
 

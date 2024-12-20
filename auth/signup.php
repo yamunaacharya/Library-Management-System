@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // Validate inputs
     if (!empty($fullname) && !empty($password) && !empty($email) && !empty($phone) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
         // Prepare the SQL statement to insert data
-        $stmt = $conn->prepare("INSERT INTO usersss (fullname, password, email, phone, role) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO users (fullname, password, email, phone, role) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sssss", $fullname, $password, $email, $phone, $role);
 
         // Execute the query

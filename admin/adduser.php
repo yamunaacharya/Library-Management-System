@@ -1,33 +1,44 @@
 <?php
 require '../includes/config.php';
 
+// Start the session
+session_start();
+
+// Check if the user is an admin
+if (!isset($_SESSION['role']) || strtolower($_SESSION['role']) !== 'admin') {
+    echo "<script>alert('You are not authorized to add users.'); window.location.href='dashboard.php';</script>";
+    exit;
+}
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve form data
     $fullname = mysqli_real_escape_string($conn, $_POST['fullname']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $role = mysqli_real_escape_string($conn, $_POST['role']);
     $phone = mysqli_real_escape_string($conn, $_POST['phone']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']); 
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-    // Check if password is provided
+    // Check if the password is provided
     if (empty($password)) {
         echo "<script>alert('Password cannot be empty'); window.history.back();</script>";
         exit;
     }
 
-    // Insert data into database
-    $stmt = $conn->prepare("INSERT INTO usersss (fullname, email, role, password, phone) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param('sssss', $fullname, $email, $role, $password, $phone);
+    // Role is fixed as 'Librarian'
+    $role = 'Librarian';
 
-    if ($stmt->execute()) {
-        echo "<script>alert('User added successfully!'); window.location.href='dashboard.php';</script>";
+    // Insert data into the database
+    $query = "INSERT INTO users (fullname, email, role, password, phone) 
+              VALUES ('$fullname', '$email', '$role', '$password', '$phone')";
+
+    if (mysqli_query($conn, $query)) {
+        echo "<script>alert('Librarian added successfully!'); window.location.href='dashboard.php';</script>";
     } else {
-        echo "<script>alert('Error: " . $stmt->error . "');</script>";
+        echo "<script>alert('Error: " . mysqli_error($conn) . "');</script>";
     }
 
-    $stmt->close();
-    $conn->close();
+    // Close the database connection
+    mysqli_close($conn);
 }
 ?>
 
@@ -36,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Management - Admin</title>
+    <title>Library Management - Add Librarian</title>
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
@@ -46,18 +57,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <nav>
                 <ul>
                     <li><a href="dashboard.php">Dashboard</a></li>
-                    <li><a href="adduser.php">Add Users</a></li>
-                    <li><a href="add_books.php">Add Books</a></li>
-                    <li><a href="managebooks.php">Manage Books</a></li>
+                    <li><a href="adduser.php">Add Librarian</a></li>
                     <li><a href="managelibrarian.php">Manage Librarian</a></li>
                     <li><a href="#">Reports</a></li>
-                    <li><a href="#">Settings</a></li>
                 </ul>
             </nav>
         </aside>
         <main class="main-content">
             <header class="dashboard-header">
-                <h2 class="text-center">Add New User</h2>
+                <h2 class="text-center">Add New Librarian</h2>
             </header>
             <form method="POST" class="form">
                 <div class="form-group">
@@ -70,10 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="form-group">
                     <label for="role">Role</label>
-                    <select class="form-control" name="role" id="role" required>
-                        <option value="Librarian">Librarian</option>
-                        <option value="Student" selected>Student</option>
-                    </select>
+                    <input type="text" class="form-control" value="Librarian" disabled>
                 </div>
                 <div class="form-group">
                     <label for="phone">Phone</label>
@@ -83,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="password">Password</label>
                     <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Add User</button>
+                <button type="submit" class="btn btn-primary">Add Librarian</button>
             </form>
         </main>
     </div>

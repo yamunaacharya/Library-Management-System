@@ -1,11 +1,25 @@
 <?php
 require '../includes/config.php';
 session_start();
-$adminEmail = $_SESSION['fullname'];
 
-function sanitize($data) {
-    global $conn;
-    return htmlspecialchars(mysqli_real_escape_string($conn, $data));
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ../auth/login.php");
+    exit;
+}
+
+$user_id = $_SESSION['user_id']; // Get the user ID from the session
+$fullname = $_SESSION['fullname'];
+$profilePic = "../assets/images/profile.jpg"; 
+
+// Fetch user details from the database
+$query = "SELECT * FROM users WHERE id = '$user_id' AND role = 'admin'";
+$result = mysqli_query($conn, $query);
+$user_details = mysqli_fetch_assoc($result);
+
+// Check if the query was successful and if user details are found
+if (!$user_details) {
+    echo "<script>alert('Error fetching user details');</script>";
+    exit;
 }
 ?>
 
@@ -14,26 +28,59 @@ function sanitize($data) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Management System - Admin Dashboard</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Librarian Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../librarian/style.css">
 </head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-            <h1>Admin Dashboard <?php echo $adminEmail ?></h1>
-            <nav>
-                <ul>
-                    <li><a href="dashboard.php" class="active">Dashboard</a></li>
-                    <li><a href="adduser.php">Add Users</a></li>
-                    <li><a href="add_books.php">Add Books</a></li>
-                    <li><a href="managebooks.php">Manage Books</a></li>
-                    <li><a href="managelibrarian.php">Manage Librarian</a></li>
-                    <li><a href="#">Reports</a></li>
-                    <li><a href="#">Settings</a></li>
-                </ul>
-            </nav>
-        </aside>
-        
+  
+    <aside class="sidebar">
+        <h1>Admin Dashboard</h1>
+        <nav>
+            <ul>
+            <li><a href="dashboard.php" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="adduser.php"><i class="fas fa-user-plus"></i> Add Librarian</a></li>
+            <li><a href="managelibrarian.php"><i class="fa-solid fa-users"></i> Manage Librarian</a></li>
+            <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
+                
+            </ul>
+        </nav>
+    </aside>
+
+    <header class="header">
+        <div class="header-right">
+            <div class="profile" onclick="openProfileModal()">
+                <img src="<?php echo $profilePic; ?>" alt="Profile">
+                <span><?php echo htmlspecialchars($fullname); ?></span>
+            </div>
+            <a href="../auth/logout.php" class="logout-btn">Logout</a>
+        </div>
+    </header>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeProfileModal()">Close</button>
+            <h2>Your Profile Details</h2>
+            <p><strong>Full Name:</strong> <?php echo htmlspecialchars($user_details['fullname']); ?></p>
+            <p><strong>Email:</strong> <?php echo htmlspecialchars($user_details['email']); ?></p>
+            <p><strong>Phone:</strong> <?php echo htmlspecialchars($user_details['phone']); ?></p>
+            <p><strong>User ID:</strong> <?php echo htmlspecialchars($user_details['id']); ?></p>
+            <p><strong>Password:</strong> <?php echo htmlspecialchars($user_details['password']); ?></p>
+        </div>
     </div>
+
+    <script>
+        // Open Profile Modal
+        function openProfileModal() {
+            document.getElementById('profileModal').style.display = 'flex';
+        }
+
+        // Close Profile Modal
+        function closeProfileModal() {
+            document.getElementById('profileModal').style.display = 'none';
+        }
+    </script>
+
 </body>
 </html>

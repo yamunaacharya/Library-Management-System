@@ -1,60 +1,42 @@
 <?php
-require '../includes/config.php'; 
+require '../includes/config.php';
+session_start();
 
-// DELETE librarian
-if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-
-    $stmt = $conn->prepare("DELETE FROM usersss WHERE id = ? AND role = 'librarian'");
-    $stmt->bind_param("i", $id);
-
-    if ($stmt->execute()) {
-        echo "Librarian deleted successfully.";
-    } else {
-        echo "Failed to delete librarian.";
-    }
-    $stmt->close();
-    header("Location: managelibrarian.php"); // Redirect back to the main page
+// Check if the user is an admin
+if (!isset($_SESSION['role']) || strtolower($_SESSION['role']) !== 'admin') {
+    echo "<script>alert('You are not authorized to manage librarians.'); window.location.href='dashboard.php';</script>";
     exit;
 }
 
-// UPDATE librarian
-if (isset($_POST['update'])) {
-    $id = $_POST['id'];
-    $fullname = $_POST['fullname'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-
-    $stmt = $conn->prepare("UPDATE usersss SET fullname = ?, email = ?, phone = ? WHERE id = ? AND role = 'librarian'");
-    $stmt->bind_param("sssi", $fullname, $email, $phone, $id);
-
-    if ($stmt->execute()) {
-        echo "Librarian updated successfully.";
+// Handle delete action
+if (isset($_GET['delete_id'])) {
+    $delete_id = intval($_GET['delete_id']);
+    $delete_query = "DELETE FROM users WHERE id = $delete_id AND role = 'Librarian'";
+    if (mysqli_query($conn, $delete_query)) {
+        echo "<script>alert('Librarian deleted successfully!'); window.location.href='managelibrarian.php';</script>";
     } else {
-        echo "Failed to update librarian.";
+        echo "<script>alert('Error: " . mysqli_error($conn) . "');</script>";
     }
-    $stmt->close();
-    header("Location: managelibrarian.php"); // Redirect back to the main page
-    exit;
 }
 
-// FETCH all librarians
-$stmt = $conn->prepare("SELECT * FROM usersss WHERE role = 'librarian'");
-$stmt->execute();
-$result = $stmt->get_result();
-$librarians = $result->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
+// Handle edit action
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_id'])) {
+    $edit_id = intval($_POST['edit_id']);
+    $fullname = mysqli_real_escape_string($conn, $_POST['fullname']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
 
-// If editing a librarian, fetch their details
-$editingLibrarian = null;
-if (isset($_GET['edit'])) {
-    $id = $_GET['edit'];
-    $stmt = $conn->prepare("SELECT * FROM usersss WHERE id = ? AND role = 'librarian'");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $editingLibrarian = $stmt->get_result()->fetch_assoc();
-    $stmt->close();
+    $update_query = "UPDATE users SET fullname = '$fullname', email = '$email', phone = '$phone' WHERE id = $edit_id AND role = 'Librarian'";
+    if (mysqli_query($conn, $update_query)) {
+        echo "<script>alert('Librarian updated successfully!'); window.location.href='managelibrarian.php';</script>";
+    } else {
+        echo "<script>alert('Error: " . mysqli_error($conn) . "');</script>";
+    }
 }
+
+// Fetch librarians
+$librarians_query = "SELECT * FROM users WHERE role = 'Librarian'";
+$librarians_result = mysqli_query($conn, $librarians_query);
 ?>
 
 <!DOCTYPE html>
@@ -62,8 +44,16 @@ if (isset($_GET['edit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Management - Admin</title>
+    <title>Manage Librarians</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <script>
+        // Confirm before deletion
+        function confirmDelete(url) {
+            if (confirm("Are you sure you want to delete this librarian?")) {
+                window.location.href = url;
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -72,61 +62,69 @@ if (isset($_GET['edit'])) {
             <nav>
                 <ul>
                     <li><a href="dashboard.php">Dashboard</a></li>
-                    <li><a href="adduser.php">Add Users</a></li>
-                    <li><a href="add_books.php">Add Books</a></li>
-                    <li><a href="managebooks.php">Manage Books</a></li>
+                    <li><a href="adduser.php">Add Librarian</a></li>
                     <li><a href="managelibrarian.php">Manage Librarian</a></li>
                     <li><a href="#">Reports</a></li>
-                    <li><a href="#">Settings</a></li>
                 </ul>
             </nav>
         </aside>
-        <div class="container1">
-        <h2 class="text">Manage Libraian</h2>
-        <table class="table-bordered">
-        <tr>
-            <th>ID</th>
-            <th>Full Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Actions</th>
-        </tr>
-        <?php foreach ($librarians as $librarian): ?>
-        <tr>
-            <td><?php echo $librarian['id']; ?></td>
-            <td><?php echo $librarian['fullname']; ?></td>
-            <td><?php echo $librarian['email']; ?></td>
-            <td><?php echo $librarian['phone']; ?></td>
-            <td>
-                <!-- Update link -->
-                <a href="?edit=<?php echo $librarian['id']; ?>">Update</a>
-                <!-- Delete link -->
-                <a href="?delete=<?php echo $librarian['id']; ?>" onclick="return confirm('Do you really want to delete this librarian?')">Delete</a>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-    </table>
+        <main class="main-content">
+            <header class="dashboard-header">
+                <h2 class="text-center">Manage Registered Librarians</h2>
+            </header>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = mysqli_fetch_assoc($librarians_result)): ?>
+                        <tr>
+                            <td><?= $row['id']; ?></td>
+                            <td><?= $row['fullname']; ?></td>
+                            <td><?= $row['email']; ?></td>
+                            <td><?= $row['phone']; ?></td>
+                            <td>
+                                <a href="?edit_id=<?= $row['id']; ?>" class="btn btn-secondary">Edit</a>
+                                <a href="javascript:void(0);" class="btn btn-danger" onclick="confirmDelete('?delete_id=<?= $row['id']; ?>')">Delete</a>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
 
-    <hr>
-
-    <!-- Update Librarian Form -->
-    <?php if ($editingLibrarian): ?>
-    <h3>Update Librarian</h3>
-    <form method="post" action="">
-        <input type="hidden" name="id" value="<?php echo $editingLibrarian['id']; ?>">
-        
-        <label for="fullname">Full Name:</label>
-        <input type="text" id="fullname" name="fullname" value="<?php echo $editingLibrarian['fullname']; ?>" required><br><br>
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="<?php echo $editingLibrarian['email']; ?>" required><br><br>
-
-        <label for="phone">Phone:</label>
-        <input type="text" id="phone" name="phone" value="<?php echo $editingLibrarian['phone']; ?>" required><br><br>
-
-        <input type="submit" name="update" value="Update Librarian">
-    </form>
-    <?php endif; ?>
+            <?php if (isset($_GET['edit_id'])): 
+                $edit_id = intval($_GET['edit_id']);
+                $edit_query = "SELECT * FROM users WHERE id = $edit_id AND role = 'Librarian'";
+                $edit_result = mysqli_query($conn, $edit_query);
+                $edit_data = mysqli_fetch_assoc($edit_result);
+                if ($edit_data):
+            ?>
+                <form method="POST" class="form">
+                    <h3>Edit Librarian</h3>
+                    <input type="hidden" name="edit_id" value="<?= $edit_data['id']; ?>">
+                    <div class="form-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" class="form-control" name="fullname" value="<?= $edit_data['fullname']; ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" name="email" value="<?= $edit_data['email']; ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-control" name="phone" value="<?= $edit_data['phone']; ?>" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Librarian</button>
+                </form>
+            <?php endif; endif; ?>
+        </main>
+    </div>
     <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
