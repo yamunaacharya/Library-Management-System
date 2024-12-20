@@ -1,17 +1,13 @@
 <?php
-require '../includes/config.php'; // Include your database configuration
+require '../includes/config.php'; 
 
-// Start session
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    // Get email and password from POST data
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
 
-    // Validate inputs
     if (!empty($email) && !empty($password) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        // Fetch user data based on the email
         $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -20,14 +16,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
 
-            // Compare the plain text password
             if ($password === $user['password']) {
-                // Set session variables
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['role'] = strtolower($user['role']);
                 $_SESSION['fullname'] = $user['fullname'];
 
-                // Redirect based on user role
                 switch ($_SESSION['role']) {
                     case 'student':
                         header("Location: ../student/dashboard.php");

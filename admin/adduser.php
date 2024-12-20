@@ -1,33 +1,26 @@
 <?php
 require '../includes/config.php';
 
-// Start the session
 session_start();
 
-// Check if the user is an admin
 if (!isset($_SESSION['role']) || strtolower($_SESSION['role']) !== 'admin') {
     echo "<script>alert('You are not authorized to add users.'); window.location.href='dashboard.php';</script>";
     exit;
 }
 
-// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Retrieve form data
     $fullname = mysqli_real_escape_string($conn, $_POST['fullname']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $phone = mysqli_real_escape_string($conn, $_POST['phone']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-    // Check if the password is provided
     if (empty($password)) {
         echo "<script>alert('Password cannot be empty'); window.history.back();</script>";
         exit;
     }
 
-    // Role is fixed as 'Librarian'
     $role = 'Librarian';
 
-    // Insert data into the database
     $query = "INSERT INTO users (fullname, email, role, password, phone) 
               VALUES ('$fullname', '$email', '$role', '$password', '$phone')";
 
@@ -36,8 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         echo "<script>alert('Error: " . mysqli_error($conn) . "');</script>";
     }
-
-    // Close the database connection
+    
     mysqli_close($conn);
 }
 ?>

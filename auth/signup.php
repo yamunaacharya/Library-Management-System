@@ -6,18 +6,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $password = $_POST['password'];  
     $email = $_POST['email'];
     $phone = $_POST['phone'];
-    $role = 'student'; // Default role is 'student'
+    $role = 'student'; 
 
-    // Validate inputs
     if (!empty($fullname) && !empty($password) && !empty($email) && !empty($phone) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        // Prepare the SQL statement to insert data
         $stmt = $conn->prepare("INSERT INTO users (fullname, password, email, phone, role) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sssss", $fullname, $password, $email, $phone, $role);
 
-        // Execute the query
         if ($stmt->execute()) {
             echo "<script>alert('Successfully registered');</script>";
-            header("Location: login.php");  // Redirect to login page
+            header("Location: login.php");  
             exit;
         } else {
             echo "<script>alert('Error: " . $stmt->error . "');</script>";
@@ -50,34 +47,28 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <div class="container mt-5">
         <h1 class="text-center">Signup</h1>
         <form method="POST">
-            <!-- Full Name -->
             <div class="form-group">
                 <label for="fullname">Full Name</label>
                 <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter your full name" required>
             </div>
             
-            <!-- Password -->
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
             </div>
             
-            <!-- Email -->
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
             </div>
             
-            <!-- Phone -->
             <div class="form-group">
                 <label for="phone">Phone</label>
                 <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
             </div>
             
-           <!-- Role (hidden input) -->
            <input type="hidden" name="role" value="student">
            
-            <!-- Submit Button -->
             <button type="submit" class="btn btn-primary btn-block">Register</button>
         </form>
 

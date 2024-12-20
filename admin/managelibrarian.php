@@ -2,13 +2,11 @@
 require '../includes/config.php';
 session_start();
 
-// Check if the user is an admin
 if (!isset($_SESSION['role']) || strtolower($_SESSION['role']) !== 'admin') {
     echo "<script>alert('You are not authorized to manage librarians.'); window.location.href='dashboard.php';</script>";
     exit;
 }
 
-// Handle delete action
 if (isset($_GET['delete_id'])) {
     $delete_id = intval($_GET['delete_id']);
     $delete_query = "DELETE FROM users WHERE id = $delete_id AND role = 'Librarian'";
@@ -19,7 +17,6 @@ if (isset($_GET['delete_id'])) {
     }
 }
 
-// Handle edit action
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_id'])) {
     $edit_id = intval($_POST['edit_id']);
     $fullname = mysqli_real_escape_string($conn, $_POST['fullname']);
@@ -34,7 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_id'])) {
     }
 }
 
-// Fetch librarians
 $librarians_query = "SELECT * FROM users WHERE role = 'Librarian'";
 $librarians_result = mysqli_query($conn, $librarians_query);
 ?>
@@ -47,7 +43,6 @@ $librarians_result = mysqli_query($conn, $librarians_query);
     <title>Manage Librarians</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <script>
-        // Confirm before deletion
         function confirmDelete(url) {
             if (confirm("Are you sure you want to delete this librarian?")) {
                 window.location.href = url;

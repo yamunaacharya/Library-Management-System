@@ -7,16 +7,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'librarian') {
     exit;
 }
 
-$user_id = $_SESSION['user_id']; // Get the user ID from the session
+$user_id = $_SESSION['user_id']; 
 $fullname = $_SESSION['fullname'];
 $profilePic = "../assets/images/profile.jpg"; 
 
-// Fetch user details from the database
+// Fetching user details from the database
 $query = "SELECT * FROM users WHERE id = '$user_id' AND role = 'librarian'";
 $result = mysqli_query($conn, $query);
 $user_details = mysqli_fetch_assoc($result);
 
-// Check if the query was successful and if user details are found
 if (!$user_details) {
     echo "<script>alert('Error fetching user details');</script>";
     exit;
@@ -57,7 +56,6 @@ if (!$user_details) {
         </div>
     </header>
 
-    <!-- Profile Modal -->
     <div id="profileModal" class="modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeProfileModal()">Close</button>
@@ -71,12 +69,10 @@ if (!$user_details) {
     </div>
 
     <script>
-        // Open Profile Modal
         function openProfileModal() {
             document.getElementById('profileModal').style.display = 'flex';
         }
 
-        // Close Profile Modal
         function closeProfileModal() {
             document.getElementById('profileModal').style.display = 'none';
         }
