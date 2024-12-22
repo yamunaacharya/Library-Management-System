@@ -1,9 +1,8 @@
 <?php
 require '../includes/config.php';
+session_start(); 
 
-session_start();
-
-if (!isset($_SESSION['role']) || strtolower($_SESSION['role']) !== 'admin') {
+if (!isset($_SESSION['user_id']) || strtolower($_SESSION['role']) !== 'admin') {
     echo "<script>alert('You are not authorized to add users.'); window.location.href='dashboard.php';</script>";
     exit;
 }
@@ -19,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $role = 'Librarian';
+    $role = 'Librarian'; 
 
     $query = "INSERT INTO users (fullname, email, role, password, phone) 
               VALUES ('$fullname', '$email', '$role', '$password', '$phone')";
@@ -29,35 +28,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         echo "<script>alert('Error: " . mysqli_error($conn) . "');</script>";
     }
-    
+
     mysqli_close($conn);
 }
 ?>
 
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Management - Add Librarian</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../librarian/style.css">
+    <link rel="stylesheet" href="../assets/css/aslide.css">
 </head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-            <h1>Library Admin</h1>
-            <nav>
-                <ul>
-                    <li><a href="dashboard.php">Dashboard</a></li>
-                    <li><a href="adduser.php">Add Librarian</a></li>
-                    <li><a href="managelibrarian.php">Manage Librarian</a></li>
-                    <li><a href="#">Reports</a></li>
-                </ul>
-            </nav>
-        </aside>
+  
+    <aside class="sidebar">
+        <h1>Admin Dashboard</h1>
+        <nav>
+            <ul>
+            <li><a href="dashboard.php" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="adduser.php"><i class="fas fa-user-plus"></i> Add Librarian</a></li>
+            <li><a href="managelibrarian.php"><i class="fa-solid fa-users"></i> Manage Librarian</a></li>
+            <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
+                
+            </ul>
+        </nav>
+    </aside>
         <main class="main-content">
             <header class="dashboard-header">
-                <h2 class="text-center">Add New Librarian</h2>
+                <h2 class="text">Add New Librarian</h2>
             </header>
             <form method="POST" class="form">
                 <div class="form-group">
@@ -80,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="password">Password</label>
                     <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Add Librarian</button>
+                <button type="submit" class="btn">Add Librarian</button>
             </form>
         </main>
     </div>

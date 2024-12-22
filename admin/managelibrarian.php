@@ -31,16 +31,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_id'])) {
     }
 }
 
+$search_query = "";
+if (isset($_GET['search'])) {
+    $search_query = mysqli_real_escape_string($conn, $_GET['search']);
+}
+
 $librarians_query = "SELECT * FROM users WHERE role = 'Librarian'";
 $librarians_result = mysqli_query($conn, $librarians_query);
 ?>
 
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Librarians</title>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../librarian/style.css">
+    <link rel="stylesheet" href="../assets/css/aslide.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <script>
         function confirmDelete(url) {
@@ -51,21 +59,26 @@ $librarians_result = mysqli_query($conn, $librarians_query);
     </script>
 </head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-            <h1>Library Admin</h1>
-            <nav>
-                <ul>
-                    <li><a href="dashboard.php">Dashboard</a></li>
-                    <li><a href="adduser.php">Add Librarian</a></li>
-                    <li><a href="managelibrarian.php">Manage Librarian</a></li>
-                    <li><a href="#">Reports</a></li>
-                </ul>
-            </nav>
-        </aside>
+  
+    <aside class="sidebar">
+        <h1>Admin Dashboard</h1>
+        <nav>
+            <ul>
+            <li><a href="dashboard.php" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="adduser.php"><i class="fas fa-user-plus"></i> Add Librarian</a></li>
+            <li><a href="managelibrarian.php"><i class="fa-solid fa-users"></i> Manage Librarian</a></li>
+            <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
+                
+            </ul>
+        </nav>
+    </aside>
         <main class="main-content">
             <header class="dashboard-header">
-                <h2 class="text-center">Manage Registered Librarians</h2>
+                <h2>Manage Registered Librarian</h2>
+                <form method="GET" action="managelibrarian.php" class="search-form">
+                    <input type="text" name="search" placeholder="Search librarian by name" value="<?= htmlspecialchars($search_query); ?>" class="search-input">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
             </header>
             <table class="table">
                 <thead>

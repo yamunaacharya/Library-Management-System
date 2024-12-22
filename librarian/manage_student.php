@@ -1,56 +1,43 @@
 <?php
-require '../includes/config.php'; // Database connection file
+require '../includes/config.php';
+session_start();
 
-// Handle delete operation
-if (isset($_GET['delete_id'])) {
-    $delete_id = $_GET['delete_id'];
-    $stmt = $conn->prepare("DELETE FROM usersss WHERE id = ?");
-    $stmt->bind_param("i", $delete_id);
-
-    if ($stmt->execute()) {
-        echo "<script>alert('Student deleted successfully');</script>";
-    } else {
-        echo "<script>alert('Error deleting student');</script>";
-    }
-    $stmt->close();
-    header("Location: manage_students.php"); 
+if (!isset($_SESSION['role']) || strtolower($_SESSION['role']) !== 'librarian') {
+    echo "<script>alert('You are not authorized to manage students.'); window.location.href='dashboard.php';</script>";
     exit;
 }
 
-// Handle update operation
-if (isset($_GET['update_id'])) {
-    $update_id = $_GET['update_id'];
-
-    // Fetch current student data
-    $stmt = $conn->prepare("SELECT * FROM usersss WHERE id = ?");
-    $stmt->bind_param("i", $update_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $student = $result->fetch_assoc();
-    $stmt->close();
-
-    // Update student data
-    if (isset($_POST['update'])) {
-        $fullname = mysqli_real_escape_string($conn, $_POST['fullname']);
-        $email = mysqli_real_escape_string($conn, $_POST['email']);
-        $phone = mysqli_real_escape_string($conn, $_POST['phone']);
-
-        $stmt = $conn->prepare("UPDATE usersss SET fullname = ?, email = ?, phone = ? WHERE id = ?");
-        $stmt->bind_param("sssi", $fullname, $email, $phone, $update_id);
-
-        if ($stmt->execute()) {
-            echo "<script>alert('Student updated successfully');</script>";
-            header("Location: manage_students.php");
-            exit;
-        } else {
-            echo "<script>alert('Error updating student');</script>";
-        }
-        $stmt->close();
+if (isset($_GET['delete_id'])) {
+    $delete_id = intval($_GET['delete_id']);
+    $delete_query = "DELETE FROM users WHERE id = $delete_id AND role = 'student'";
+    if (mysqli_query($conn, $delete_query)) {
+        echo "<script>alert('Student deleted successfully!'); window.location.href='manage_student.php';</script>";
+    } else {
+        echo "<script>alert('Error deleting student: " . mysqli_error($conn) . "');</script>";
     }
 }
 
-// Fetch all usersss
-$result = $conn->query("SELECT * FROM usersss");
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_id'])) {
+    $edit_id = intval($_POST['edit_id']);
+    $fullname = mysqli_real_escape_string($conn, $_POST['fullname']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+
+    $update_query = "UPDATE users SET fullname = '$fullname', email = '$email', phone = '$phone' WHERE id = $edit_id AND role = 'student'";
+    if (mysqli_query($conn, $update_query)) {
+        echo "<script>alert('Student updated successfully!'); window.location.href='manage_student.php';</script>";
+    } else {
+        echo "<script>alert('Error updating student: " . mysqli_error($conn) . "');</script>";
+    }
+}
+
+$search_query = "";
+if (isset($_GET['search'])) {
+    $search_query = mysqli_real_escape_string($conn, $_GET['search']);
+}
+
+$students_query = "SELECT * FROM users WHERE role = 'student' AND fullname LIKE '%$search_query%'";
+$students_result = mysqli_query($conn, $students_query);
 ?>
 
 <!DOCTYPE html>
@@ -59,58 +46,100 @@ $result = $conn->query("SELECT * FROM usersss");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Students</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../assets/css/aslide.css">
+    <script>
+        function confirmDelete(url) {
+            if (confirm("Are you sure you want to delete this student?")) {
+                window.location.href = url;
+            }
+        }
+    </script>
 </head>
 <body>
-<div class="container">
-    <h3 class="text">Manage Registered Students</h3>
+<aside class="sidebar">
+        <h1>Librarian Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="dashboard.php" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="add_books.php"><i class="fas fa-book"></i> Add Book</a></li>
+                <li><a href="issuebook.php"><i class="fas fa-book"></i> Issue Book</a></li>
+                <li><a href="manage_student.php"><i class="fa-solid fa-users"></i> Manage Student</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </nav>
+    </aside>
 
-    <!-- Students Table -->
-    <table class="table-bordered">
-        <thead class="thead-dark">
-            <tr>
-                <th>ID</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php while ($row = $result->fetch_assoc()): ?>
-                <tr>
-                    <td><?= htmlspecialchars($row['id']) ?></td>
-                    <td><?= htmlspecialchars($row['fullname']) ?></td>
-                    <td><?= htmlspecialchars($row['email']) ?></td>
-                    <td><?= htmlspecialchars($row['phone']) ?></td>
-                    <td>
-                        <a href="?update_id=<?= $row['id'] ?>" class="btn btn-primary btn-sm">Update</a>
-                        <a href="?delete_id=<?= $row['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Do you really want to delete this student?');">Delete</a>
-                    </td>
-                </tr>
-            <?php endwhile; ?>
-        </tbody>
-    </table>
+        <main class="main-content">
+            <header class="dashboard-header">
+                <h2>Manage Registered Students</h2>
+                <form method="GET" action="manage_student.php" class="search-form">
+                    <input type="text" name="search" placeholder="Search students by name" value="<?= htmlspecialchars($search_query); ?>" class="search-input">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </header>
 
-    <!-- Update Form -->
-    <?php if (isset($_GET['update_id'])): ?>
-        <h2 class="mt-4">Update Student Details</h2>
-        <form method="POST" class="mt-3">
-            <div class="form-group">
-                <label for="fullname">Full Name</label>
-                <input type="text" name="fullname" class="form-control" value="<?= htmlspecialchars($student['fullname']) ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($student['email']) ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone</label>
-                <input type="text" name="phone" class="form-control" value="<?= htmlspecialchars($student['phone']) ?>" required>
-            </div>
-            <button type="submit" name="update" class="btn btn-primary btn-sm">Update</button>
-        </form>
-    <?php endif; ?>
-</div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (mysqli_num_rows($students_result) > 0): ?>
+                        <?php while ($row = mysqli_fetch_assoc($students_result)): ?>
+                            <tr>
+                                <td><?= $row['id']; ?></td>
+                                <td><?= htmlspecialchars($row['fullname']); ?></td>
+                                <td><?= htmlspecialchars($row['email']); ?></td>
+                                <td><?= htmlspecialchars($row['phone']); ?></td>
+                                <td>
+                                    <a href="?edit_id=<?= $row['id']; ?>" class="btn btn-secondary">Edit</a>
+                                    <a href="javascript:void(0);" class="btn btn-danger" onclick="confirmDelete('?delete_id=<?= $row['id']; ?>')">Delete</a>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5">No students found.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+
+            <?php if (isset($_GET['edit_id'])): 
+                $edit_id = intval($_GET['edit_id']);
+                $edit_query = "SELECT * FROM users WHERE id = $edit_id AND role = 'student'";
+                $edit_result = mysqli_query($conn, $edit_query);
+                $edit_data = mysqli_fetch_assoc($edit_result);
+                if ($edit_data):
+            ?>
+                <form method="POST" class="form">
+                    <h3>Edit Student</h3>
+                    <input type="hidden" name="edit_id" value="<?= $edit_data['id']; ?>">
+                    <div class="form-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" class="form-control" name="fullname" value="<?= htmlspecialchars($edit_data['fullname']); ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" name="email" value="<?= htmlspecialchars($edit_data['email']); ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-control" name="phone" value="<?= htmlspecialchars($edit_data['phone']); ?>" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Student</button>
+                </form>
+            <?php endif; endif; ?>
+        </main>
+    </div>
+    <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

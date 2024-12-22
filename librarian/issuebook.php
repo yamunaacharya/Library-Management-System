@@ -1,131 +1,128 @@
 <?php
 require '../includes/config.php';
+session_start();
 
-// Function to check if a student can issue a book
-function canIssueBook($conn, $student_email, $book_id) {
-    // Check if the student has already issued this book
-    $check_same_book_sql = "SELECT * FROM transaction 
-                            WHERE s_email = ? AND b_id = ? AND status = 'borrowed'";
-    $stmt = $conn->prepare($check_same_book_sql);
-    $stmt->bind_param("si", $student_email, $book_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        echo "Error: You have already borrowed this book.<br>";
-        return false;
-    }
-
-    // Check if the student has already borrowed 5 different books
-    $check_limit_sql = "SELECT COUNT(*) AS book_count FROM transaction 
-                        WHERE s_email = ? AND status = 'borrowed'";
-    $stmt = $conn->prepare($check_limit_sql);
-    $stmt->bind_param("s", $student_email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
-
-    if ($row['book_count'] >= 5) {
-        echo "Error: You cannot borrow more than 5 books at a time.<br>";
-        return false;
-    }
-
-    return true;
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'librarian') {
+    header("Location: ../auth/login.php");
+    exit;
 }
 
-// Function to issue a book
-function issueBook($conn, $student_email, $book_title) {
-    // Verify student exists and role is 'student'
-    $student_sql = "SELECT email FROM usersss WHERE email = ? AND role = 'student'";
-    $stmt = $conn->prepare($student_sql);
-    $stmt->bind_param("s", $student_email);
-    $stmt->execute();
-    $student_result = $stmt->get_result();
-    if ($student_result->num_rows === 0) {
-        echo "Error: Student not found or invalid role.<br>";
-        return;
-    }
-
-    // Verify book exists and is available
-    $book_sql = "SELECT b_id, quantity FROM boooks WHERE title = ? AND status = 'Available'";
-    $stmt = $conn->prepare($book_sql);
-    $stmt->bind_param("s", $book_title);
-    $stmt->execute();
-    $book_result = $stmt->get_result();
-
-    if ($book_result->num_rows === 0) {
-        echo "Error: Book not found or not available.<br>";
-        return;
-    }
-    $book = $book_result->fetch_assoc();
-    $book_id = $book['b_id'];
-    $quantity = $book['quantity'];
-
-    if ($quantity <= 0) {
-        echo "Error: No copies left to issue.<br>";
-        return;
-    }
-
-    // Check if student can issue the book
-    if (!canIssueBook($conn, $student_email, $book_id)) {
-        return;
-    }
-
-    // Set issue and due dates
-    $issue_date = date("Y-m-d");
-    $due_date = date("Y-m-d", strtotime("+14 days")); // Due date 14 days from today
-
-    // Insert into transaction table
-    $insert_sql = "INSERT INTO transaction (s_email, b_id, issue_date, due_date, status) 
-                   VALUES (?, ?, ?, ?, 'borrowed')";
-    $stmt = $conn->prepare($insert_sql);
-    $stmt->bind_param("siss", $student_email, $book_id, $issue_date, $due_date);
-
-    if ($stmt->execute()) {
-        // Update book status and quantity
-        $update_sql = "UPDATE boooks SET quantity = quantity - 1, 
-                       status = CASE WHEN quantity = 1 THEN 'Borrowed' ELSE 'Available' END 
-                       WHERE b_id = ?";
-        $stmt = $conn->prepare($update_sql);
-        $stmt->bind_param("i", $book_id);
-        $stmt->execute();
-
-        echo "Book issued successfully!<br>";
-        echo "Issue Date: $issue_date <br>";
-        echo "Due Date: $due_date <br>";
-    } else {
-        echo "Error: Unable to issue the book.";
-    }
-}
-
-// Process form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $student_email = $_POST['student_email'];
-    $book_title = $_POST['book_title'];
+    $transaction_id = intval($_POST['transaction_id']);
+    $action = $_POST['action']; 
 
-    if (!empty($student_email) && !empty($book_title)) {
-        issueBook($conn, $student_email, $book_title);
-    } else {
-        echo "Please provide both student email and book title.";
+    if ($action === 'accept') {
+        $fetch_query = "SELECT B_id FROM transaction WHERE T_id = $transaction_id";
+        $fetch_result = mysqli_query($conn, $fetch_query);
+        $row = mysqli_fetch_assoc($fetch_result);
+        $book_id = $row['B_id'];
+
+        $quantity_check_query = "SELECT Quantity FROM books WHERE B_id = $book_id";
+        $quantity_check_result = mysqli_query($conn, $quantity_check_query);
+        $quantity_row = mysqli_fetch_assoc($quantity_check_result);
+
+        if ($quantity_row['Quantity'] > 0) {
+            $issue_date = date('Y-m-d');
+            $due_date = date('Y-m-d', strtotime('+14 days')); 
+            $update_transaction_query = "UPDATE transaction 
+                                         SET Status = 'Issued', Issue_date = '$issue_date', Due_date = '$due_date' 
+                                         WHERE T_id = $transaction_id";
+
+            $update_quantity_query = "UPDATE books SET Quantity = Quantity - 1 WHERE B_id = $book_id";
+
+            if (mysqli_query($conn, $update_transaction_query) && mysqli_query($conn, $update_quantity_query)) {
+                echo "<script>alert('Book issued successfully!'); window.location.href = 'manage_requests.php';</script>";
+            } else {
+                echo "<script>alert('Error: " . mysqli_error($conn) . "'); window.history.back();</script>";
+            }
+        } else {
+            echo "<script>alert('The requested book is out of stock.'); window.history.back();</script>";
+        }
+    } elseif ($action === 'reject') {
+        $update_query = "UPDATE transaction SET Status = 'Rejected' WHERE T_id = $transaction_id";
+
+        if (mysqli_query($conn, $update_query)) {
+            echo "<script>alert('Request rejected successfully.'); window.location.href = 'issuebook.php';</script>";
+        } else {
+            echo "<script>alert('Error: " . mysqli_error($conn) . "'); window.history.back();</script>";
+        }
     }
 }
+
+$fetch_query = "SELECT t.T_id, t.S_email, b.Title, t.Status 
+                FROM transaction t 
+                INNER JOIN books b ON t.B_id = b.B_id 
+                WHERE t.Status = 'Requested'";
+$fetch_result = mysqli_query($conn, $fetch_query);
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Issue Book</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Librarian Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../assets/css/aslide.css">
 </head>
 <body>
-    <h2>Issue Book</h2>
-    <form method="POST" action="">
-        <label for="student_email">Student Email:</label><br>
-        <input type="email" id="student_email" name="student_email" required><br><br>
-
-        <label for="book_title">Book Title:</label><br>
-        <input type="text" id="book_title" name="book_title" required><br><br>
-
-        <input type="submit" value="Issue Book">
-    </form>
+  
+    <aside class="sidebar">
+        <h1>Librarian Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="dashboard.php" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="add_books.php"><i class="fas fa-book"></i> Add Book</a></li>
+                <li><a href="issuebook.php"><i class="fas fa-book"></i> Issue Book</a></li>
+                <li><a href="manage_student.php"><i class="fa-solid fa-users"></i> Manage Student</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="main-content">
+        <header class="dashboard-header">
+            <h3 class="text-center">Manage Book Requests</h3><br>
+        </header>
+        <div class="container my-5">
+            <?php if (mysqli_num_rows($fetch_result) > 0): ?>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>S.N ID</th>
+                            <th>Student Email</th>
+                            <th>Book Title</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = mysqli_fetch_assoc($fetch_result)): ?>
+                            <tr>
+                                <td><?php echo $row['T_id']; ?></td>
+                                <td><?php echo $row['S_email']; ?></td>
+                                <td><?php echo $row['Title']; ?></td>
+                                <td><?php echo $row['Status']; ?></td>
+                                <td>
+                                    <form action="" method="post" style="display: inline;">
+                                        <input type="hidden" name="transaction_id" value="<?php echo $row['T_id']; ?>">
+                                        <button type="submit" name="action" value="accept" class="btn btn-success">Accept</button>
+                                    </form>
+                                    <form action="" method="post" style="display: inline;">
+                                        <input type="hidden" name="transaction_id" value="<?php echo $row['T_id']; ?>">
+                                        <button type="submit" name="action" value="reject" class="btn btn-danger">Reject</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p class="text-center">No pending book requests at the moment.</p>
+            <?php endif; ?>
+        </div>
+    </main>
+</div>
 </body>
 </html>
+
