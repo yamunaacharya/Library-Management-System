@@ -91,7 +91,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         </form>
 
         <p class="text-center">Don't have an account? <a href="signup.php">Sign Up here</a></p>
-        <p class="text-center"><a href="forgot-password.php">Forgot password?</a></p>
     </div>
 </body>
 </html>

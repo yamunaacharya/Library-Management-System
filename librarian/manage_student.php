@@ -49,7 +49,8 @@ $students_result = mysqli_query($conn, $students_query);
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="../assets/css/aslide.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/script.js"></script>
     <script>
         function confirmDelete(url) {
             if (confirm("Are you sure you want to delete this student?")) {
@@ -63,11 +64,16 @@ $students_result = mysqli_query($conn, $students_query);
         <h1>Librarian Dashboard</h1>
         <nav>
             <ul>
-                <li><a href="dashboard.php" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                 <li><a href="add_books.php"><i class="fas fa-book"></i> Add Book</a></li>
                 <li><a href="issuebook.php"><i class="fas fa-book"></i> Issue Book</a></li>
                 <li><a href="manage_student.php"><i class="fa-solid fa-users"></i> Manage Student</a></li>
-                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                <li class="dropdown">
+                    <a href="#" onclick="toggleDropdown()" class="dropdown-toggle"><i class="fas fa-cog"></i> Settings <i class="fa fa-chevron-down" style=" margin-left: 100px;"></i></a>
+                    <ul class="dropdown-menu" id="settingsDropdown">
+                        <li><a href="../auth/changepassword.php"><i class="fas fa-key"></i> Change Password</a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </aside>

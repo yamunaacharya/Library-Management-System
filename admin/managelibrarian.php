@@ -48,8 +48,8 @@ $librarians_result = mysqli_query($conn, $librarians_query);
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../librarian/style.css">
-    <link rel="stylesheet" href="../assets/css/aslide.css">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/script.js"></script>
     <script>
         function confirmDelete(url) {
             if (confirm("Are you sure you want to delete this librarian?")) {
@@ -64,10 +64,16 @@ $librarians_result = mysqli_query($conn, $librarians_query);
         <h1>Admin Dashboard</h1>
         <nav>
             <ul>
-            <li><a href="dashboard.php" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
             <li><a href="adduser.php"><i class="fas fa-user-plus"></i> Add Librarian</a></li>
             <li><a href="managelibrarian.php"><i class="fa-solid fa-users"></i> Manage Librarian</a></li>
-            <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
+            <li><a href="report.php"><i class="fas fa-chart-line"></i> Reports</a></li>
+            <li class="dropdown">
+                    <a href="#" onclick="toggleDropdown()" class="dropdown-toggle"><i class="fas fa-cog"></i> Settings <i class="fa fa-chevron-down" style=" margin-left: 100px;"></i></a>
+                    <ul class="dropdown-menu" id="settingsDropdown">
+                        <li><a href="../auth/changepassword.php"><i class="fas fa-key"></i> Change Password</a></li>
+                    </ul>
+                </li>
                 
             </ul>
         </nav>
