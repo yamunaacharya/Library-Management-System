@@ -21,6 +21,22 @@ if (!$user_details) {
     exit;
 }
 
+// Fetching report data
+$total_students_query = "SELECT COUNT(*) AS total_students FROM users WHERE role = 'student'";
+$total_students_result = mysqli_query($conn, $total_students_query);
+$total_students = mysqli_fetch_assoc($total_students_result)['total_students'] ?? 0;
+
+$total_books_query = "SELECT COUNT(*) AS total_books FROM books";
+$total_books_result = mysqli_query($conn, $total_books_query);
+$total_books = mysqli_fetch_assoc($total_books_result)['total_books'] ?? 0;
+
+$total_books_issued_query = "SELECT COUNT(*) AS total_issued FROM transaction WHERE Status = 'Issued'";
+$total_books_issued_result = mysqli_query($conn, $total_books_issued_query);
+$total_books_issued = mysqli_fetch_assoc($total_books_issued_result)['total_issued'] ?? 0;
+
+$total_fines_query = "SELECT SUM(amount) AS total_fines FROM payments WHERE amount > 0";
+$total_fines_result = mysqli_query($conn, $total_fines_query);
+$total_fines = mysqli_fetch_assoc($total_fines_result)['total_fines'] ?? 0.00;
 ?>
 
 <!DOCTYPE html>
@@ -33,6 +49,49 @@ if (!$user_details) {
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <script src="../assets/js/script.js"></script>
+    <style>
+         .report-section {
+            margin: 90px;
+        }
+
+        .report-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 70px;
+        }
+
+        .report-box {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .report-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .report-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .report-title {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .report-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+    </style>
 </head>
 <body>
   
@@ -42,6 +101,7 @@ if (!$user_details) {
             <ul>
                 <li><a href="dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                 <li><a href="add_books.php"><i class="fas fa-book"></i> Add Book</a></li>
+                <li><a href="manage_books.php"><i class="fas fa-book"></i> Manage Book</a></li>
                 <li><a href="issuebook.php"><i class="fas fa-book"></i> Issue Book</a></li>
                 <li><a href="manage_student.php"><i class="fa-solid fa-users"></i> Manage Student</a></li>
                 <li class="dropdown">
@@ -63,6 +123,30 @@ if (!$user_details) {
             <a href="../auth/logout.php" class="logout-btn">Logout</a>
         </div>
     </header>
+    <div class="report-section">
+        <div class="report-container">
+            <div class="report-box">
+                <div class="report-icon"><i class="fa-solid fa-users"></i></div>
+                <div class="report-value"><?php echo $total_students;; ?></div>
+                <div class="report-title">Reg Students</div>
+            </div>
+            <div class="report-box">
+                <div class="report-icon"><i class="fas fa-book"></i></div>
+                <div class="report-value"><?php echo $total_books; ?></div>
+                <div class="report-title">Books Listed</div>
+            </div>
+            <div class="report-box">
+                <div class="report-icon"><i class="fa-solid fa-bars"></i></div>
+                <div class="report-value"><?php echo $total_books_issued; ?></div>
+                <div class="report-title">Issued Books</div>
+            </div>
+            <div class="report-box">
+                <div class="report-icon"><i class="fa-solid fa-money-bill"></i></div>
+                <div class="report-value">Rs. <?php echo number_format($total_fines, 2); ?></div>
+                <div class="report-title">collected Fines</div>
+            </div>
+        </div>
+    </div>
 
     <div id="profileModal" class="modal">
         <div class="modal-content">

@@ -21,6 +21,18 @@ if (!$user_details) {
     exit;
 }
 
+// Fetching report data
+$total_issued_books_query = "SELECT COUNT(*) AS total_issued FROM transaction WHERE S_email = '{$user_details['email']}' AND Status = 'Issued'";
+$total_issued_books_result = mysqli_query($conn, $total_issued_books_query);
+$total_issued_books = mysqli_fetch_assoc($total_issued_books_result)['total_issued'] ?? 0;
+
+$books_not_returned_query = "SELECT COUNT(*) AS not_returned FROM transaction WHERE S_email = '{$user_details['email']}' AND Status = 'Issued' AND Due_date < CURDATE()";
+$books_not_returned_result = mysqli_query($conn, $books_not_returned_query);
+$books_not_returned = mysqli_fetch_assoc($books_not_returned_result)['not_returned'] ?? 0;
+
+$total_fines_query = "SELECT SUM(Fine) AS total_fine FROM transaction WHERE S_email = '{$user_details['email']}' AND Fine > 0 AND Status = 'Issued'";
+$total_fines_result = mysqli_query($conn, $total_fines_query);
+$total_fines = mysqli_fetch_assoc($total_fines_result)['total_fine'] ?? 0.00;
 ?>
 
 <!DOCTYPE html>
@@ -34,10 +46,49 @@ if (!$user_details) {
     <link rel="stylesheet" href="../assets/css/style.css">
     <script src="../assets/js/script.js"></script>
     <style>
-</style>
+        .report-section {
+            margin: 90px;
+        }
+
+        .report-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 60px;
+        }
+
+        .report-box {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .report-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .report-title {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .report-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+    </style>
 </head>
 <body>
-  
     <aside class="sidebar">
         <h1>Student Dashboard</h1>
         <nav>
@@ -45,6 +96,7 @@ if (!$user_details) {
                 <li><a href="dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                 <li><a href="requestbook.php"><i class="fa-solid fa-book"></i> Request Book</a></li>
                 <li><a href="issuedbooks.php"><i class="fa-solid fa-book"></i> Issued Books</a></li>
+                <li><a href="returnbooks.php"><i class="fa-solid fa-book"></i> Return Books</a></li>
                 <li class="dropdown">
                     <a href="#" onclick="toggleDropdown()" class="dropdown-toggle"><i class="fas fa-cog"></i> Settings <i class="fa fa-chevron-down" style=" margin-left: 100px;"></i></a>
                     <ul class="dropdown-menu" id="settingsDropdown">
@@ -65,7 +117,27 @@ if (!$user_details) {
         </div>
     </header>
  
-    <!-- fetching users details from the database  -->
+    <div class="report-section">
+        <div class="report-container">
+            <div class="report-box">
+                <div class="report-icon"><i class="fas fa-book"></i></div>
+                <div class="report-value"><?php echo $total_issued_books; ?></div>
+                <div class="report-title">Total Issued Books</div>
+            </div>
+            <div class="report-box">
+                <div class="report-icon"><i class="fas fa-recycle"></i></div>
+                <div class="report-value"><?php echo $books_not_returned; ?></div>
+                <div class="report-title">Books Not Returned</div>
+            </div>
+            <div class="report-box">
+                <div class="report-icon"><i class="fas fa-money-bill-wave"></i></div>
+                <div class="report-value">Rs. <?php echo number_format($total_fines, 2); ?></div>
+                <div class="report-title">Total Due Fines</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fetching user details from the database -->
     <div id="profileModal" class="modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeProfileModal()">Close</button>
@@ -77,6 +149,5 @@ if (!$user_details) {
             <p><strong>Password:</strong> <?php echo htmlspecialchars($user_details['password']); ?></p>
         </div>
     </div>
-
 </body>
 </html>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3309
--- Generation Time: Dec 22, 2024 at 05:12 PM
+-- Generation Time: Dec 29, 2024 at 02:29 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -42,8 +42,32 @@ CREATE TABLE `books` (
 --
 
 INSERT INTO `books` (`B_id`, `Title`, `Author`, `ISBN`, `Category`, `Status`, `Quantity`) VALUES
-(1001, 'DSA', 'Bhupendra Singh', 'B1356', 'Programming', 'Available', 4),
-(1002, 'The Puppet Masters', 'Robert Heinlein', '12uy32', 'Science Fiction', 'Available', 2);
+(1001, 'DSA', 'Bhupendra Singh', 'B1356', 'Programming', 'Available', 5),
+(1002, 'The Puppet Masters', 'Robert Heinlein', '12uy32', 'Science Fiction', 'Available', 1),
+(1003, 'Operating system', 'xyz', '34562', 'abcd', 'Available', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `id` int(11) NOT NULL,
+  `purchase_order_id` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `status` enum('Pending','Completed','Failed') DEFAULT 'Pending',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `purchase_order_id`, `email`, `name`, `amount`, `status`, `created_at`) VALUES
+(1, '67712054727a8', 'jescie@gmail.com', 'Jescie Donovan', '1000.00', 'Pending', '2024-12-29 10:11:32');
 
 -- --------------------------------------------------------
 
@@ -67,8 +91,11 @@ CREATE TABLE `transaction` (
 --
 
 INSERT INTO `transaction` (`T_id`, `S_email`, `B_id`, `Issue_date`, `Due_date`, `Return_date`, `Fine`, `Status`) VALUES
-(1, 'jescie@gmail.com', 1001, '2024-12-21', '2025-01-04', '0000-00-00', '0.00', 'Issued'),
-(2, 'xyz@gmail.com', 1001, '2024-12-21', '2025-01-04', '0000-00-00', '0.00', 'Issued');
+(1, 'jescie@gmail.com', 1001, '2024-12-21', '2025-01-04', '2024-12-24', '0.00', 'Returned'),
+(2, 'xyz@gmail.com', 1001, '2024-12-21', '2025-01-04', '0000-00-00', '0.00', 'Issued'),
+(3, 'jescie@gmail.com', 1001, '2024-12-24', '2024-12-25', '2024-12-25', '0.00', 'Returned'),
+(4, 'jescie@gmail.com', 1002, '2024-12-24', '2024-12-25', '0000-00-00', '12.00', 'Issued'),
+(5, 'xyz@gmail.com', 1003, '2024-12-26', '2025-01-09', '0000-00-00', '0.00', 'Issued');
 
 -- --------------------------------------------------------
 
@@ -107,6 +134,12 @@ ALTER TABLE `books`
   ADD UNIQUE KEY `ISBN` (`ISBN`);
 
 --
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `transaction`
 --
 ALTER TABLE `transaction`
@@ -129,13 +162,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `B_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1003;
+  MODIFY `B_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1004;
+
+--
+-- AUTO_INCREMENT for table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `T_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `T_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`

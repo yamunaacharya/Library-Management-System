@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $update_quantity_query = "UPDATE books SET Quantity = Quantity - 1 WHERE B_id = $book_id";
 
             if (mysqli_query($conn, $update_transaction_query) && mysqli_query($conn, $update_quantity_query)) {
-                echo "<script>alert('Book issued successfully!'); window.location.href = 'manage_requests.php';</script>";
+                echo "<script>alert('Book issued successfully!'); window.location.href = 'issuebook.php';</script>";
             } else {
                 echo "<script>alert('Error: " . mysqli_error($conn) . "'); window.history.back();</script>";
             }
@@ -75,6 +75,7 @@ $fetch_result = mysqli_query($conn, $fetch_query);
             <ul>
                 <li><a href="dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                 <li><a href="add_books.php"><i class="fas fa-book"></i> Add Book</a></li>
+                <li><a href="manage_books.php"><i class="fas fa-book"></i> Manage Book</a></li>
                 <li><a href="issuebook.php"><i class="fas fa-book"></i> Issue Book</a></li>
                 <li><a href="manage_student.php"><i class="fa-solid fa-users"></i> Manage Student</a></li>
                 <li class="dropdown">

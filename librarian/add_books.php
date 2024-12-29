@@ -46,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <ul>
                 <li><a href="dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                 <li><a href="add_books.php"><i class="fas fa-book"></i> Add Book</a></li>
+                <li><a href="manage_books.php"><i class="fas fa-book"></i> Manage Book</a></li>
                 <li><a href="issuebook.php"><i class="fas fa-book"></i> Issue Book</a></li>
                 <li><a href="manage_student.php"><i class="fa-solid fa-users"></i> Manage Student</a></li>
                 <li class="dropdown">

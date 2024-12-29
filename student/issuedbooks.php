@@ -40,6 +40,7 @@ $result = $stmt->get_result();
                 <li><a href="dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                 <li><a href="requestbook.php"><i class="fa-solid fa-book"></i> Request Book</a></li>
                 <li><a href="issuedbooks.php"><i class="fa-solid fa-book"></i> Issued Books</a></li>
+                <li><a href="returnbooks.php"><i class="fa-solid fa-book"></i> Return Books</a></li>
                 <li class="dropdown">
                     <a href="#" onclick="toggleDropdown()" class="dropdown-toggle"><i class="fas fa-cog"></i> Settings <i class="fa fa-chevron-down" style=" margin-left: 100px;"></i></a>
                     <ul class="dropdown-menu" id="settingsDropdown">

@@ -18,25 +18,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $book_query = "SELECT B_id FROM books WHERE Title = '$book_title' LIMIT 1";
+    // Check if the book exists and get its ID and quantity
+    $book_query = "SELECT B_id, Quantity FROM books WHERE Title = '$book_title' LIMIT 1";
     $book_result = mysqli_query($conn, $book_query);
 
     if (mysqli_num_rows($book_result) === 0) {
-        echo "<script>alert('No book found with the title: $book_title'); window.history.back();</script>";
+        echo "<script>alert('Sorry, this book is not available in the library.'); window.history.back();</script>";
         exit;
     }
 
     $book_data = mysqli_fetch_assoc($book_result);
     $book_id = $book_data['B_id'];
+    $quantity = $book_data['Quantity'];
 
-    $check_query = "SELECT * FROM transaction WHERE S_email = '$s_email' AND B_id = $book_id AND Status IN ('Requested', 'Issued')";
+    // Check if the book is already requested or issued
+    $check_query = "SELECT * FROM transaction WHERE B_id = $book_id AND Status IN ('Requested', 'Issued')";
     $check_result = mysqli_query($conn, $check_query);
 
-    if (mysqli_num_rows($check_result) > 0) {
-        echo "<script>alert('You have already requested or issued this book.'); window.history.back();</script>";
+    if (mysqli_num_rows($check_result) >= $quantity) {
+        echo "<script>alert('Sorry, this book is currently unavailable as all copies are either requested or issued.'); window.history.back();</script>";
         exit;
     }
 
+    // Check if the student already has a pending request for this book
+    $student_check_query = "SELECT * FROM transaction WHERE S_email = '$s_email' AND B_id = $book_id AND Status = 'Requested'";
+    $student_check_result = mysqli_query($conn, $student_check_query);
+
+    if (mysqli_num_rows($student_check_result) > 0) {
+        echo "<script>alert('You have already requested this book.'); window.history.back();</script>";
+        exit;
+    }
+
+    // Check if the student has reached the limit of 5 requested books
     $count_query = "SELECT COUNT(*) AS book_count FROM transaction WHERE S_email = '$s_email' AND Status = 'Requested'";
     $count_result = mysqli_query($conn, $count_query);
     $count_row = mysqli_fetch_assoc($count_result);
@@ -45,6 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<script>alert('You can only request up to 5 books.'); window.history.back();</script>";
         exit;
     }
+
+    // Add the request to the transaction table
     $status = 'Requested';
     $issue_date = NULL; 
     $due_date = NULL;
@@ -61,7 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,6 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li><a href="dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                 <li><a href="requestbook.php"><i class="fa-solid fa-book"></i> Request Book</a></li>
                 <li><a href="issuedbooks.php"><i class="fa-solid fa-book"></i> Issued Books</a></li>
+                <li><a href="returnbooks.php"><i class="fa-solid fa-book"></i> Return Books</a></li>
                 <li class="dropdown">
                     <a href="#" onclick="toggleDropdown()" class="dropdown-toggle"><i class="fas fa-cog"></i> Settings <i class="fa fa-chevron-down" style=" margin-left: 100px;"></i></a>
                     <ul class="dropdown-menu" id="settingsDropdown">
@@ -93,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </aside>
     <main class="main-content">
         <header class="dashboard-header">
-            <h3 class="text-center">Request a Book</h3>
+            <h3 class="text-center">Request a Book</h3><br>
         </header>
         <div class="container my-5">
             <!-- Form to request a book -->
