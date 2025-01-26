@@ -31,6 +31,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $book_id = $book_data['B_id'];
     $quantity = $book_data['Quantity'];
 
+    // Check if the student has already issued this book and hasn't returned it yet
+    $issued_check_query = "SELECT * FROM transaction WHERE S_email = '$s_email' AND B_id = $book_id AND Status = 'Issued' AND Return_date IS NULL";
+    $issued_check_result = mysqli_query($conn, $issued_check_query);
+
+    if (mysqli_num_rows($issued_check_result) > 0) {
+        echo "<script>alert('You have already issued this book and have not returned it yet.'); window.history.back();</script>";
+        exit;
+    }
+
     // Check if the book is already requested or issued
     $check_query = "SELECT * FROM transaction WHERE B_id = $book_id AND Status IN ('Requested', 'Issued')";
     $check_result = mysqli_query($conn, $check_query);
@@ -76,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -88,7 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="../assets/js/script.js"></script>
 </head>
 <body>
-  
     <aside class="sidebar">
         <h1>Student Dashboard</h1>
         <nav>
@@ -106,6 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </ul>
         </nav>
     </aside>
+
     <main class="main-content">
         <header class="dashboard-header">
             <h3 class="text-center">Request a Book</h3><br>
@@ -125,6 +135,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         </div>
     </main>
-</div>
 </body>
 </html>

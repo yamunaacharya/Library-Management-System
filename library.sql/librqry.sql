@@ -83,19 +83,20 @@ CREATE TABLE `transaction` (
   `Due_date` date DEFAULT NULL,
   `Return_date` date DEFAULT NULL,
   `Fine` decimal(10,2) DEFAULT 0.00,
-  `Status` enum('Requested','Issued','Rejected','Returned') DEFAULT 'Requested'
+  `Status` enum('Requested','Issued','Rejected','Returned') DEFAULT 'Requested',
+  `payment_id` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `transaction`
 --
 
-INSERT INTO `transaction` (`T_id`, `S_email`, `B_id`, `Issue_date`, `Due_date`, `Return_date`, `Fine`, `Status`) VALUES
-(1, 'jescie@gmail.com', 1001, '2024-12-21', '2025-01-04', '2024-12-24', '0.00', 'Returned'),
-(2, 'xyz@gmail.com', 1001, '2024-12-21', '2025-01-04', '0000-00-00', '0.00', 'Issued'),
-(3, 'jescie@gmail.com', 1001, '2024-12-24', '2024-12-25', '2024-12-25', '0.00', 'Returned'),
-(4, 'jescie@gmail.com', 1002, '2024-12-24', '2024-12-25', '0000-00-00', '12.00', 'Issued'),
-(5, 'xyz@gmail.com', 1003, '2024-12-26', '2025-01-09', '0000-00-00', '0.00', 'Issued');
+INSERT INTO `transaction` (`T_id`, `S_email`, `B_id`, `Issue_date`, `Due_date`, `Return_date`, `Fine`, `Status`, `payment_id`) VALUES
+(1, 'jescie@gmail.com', 1001, '2024-12-21', '2025-01-04', '2024-12-24', '0.00', 'Returned', NULL),
+(2, 'xyz@gmail.com', 1001, '2024-12-21', '2025-01-04', '0000-00-00', '0.00', 'Issued', NULL),
+(3, 'jescie@gmail.com', 1001, '2024-12-24', '2024-12-25', '2024-12-25', '0.00', 'Returned', NULL),
+(4, 'jescie@gmail.com', 1002, '2024-12-24', '2024-12-25', '0000-00-00', '12.00', 'Issued', NULL),
+(5, 'xyz@gmail.com', 1003, '2024-12-26', '2025-01-09', '0000-00-00', '0.00', 'Issued', NULL);
 
 -- --------------------------------------------------------
 

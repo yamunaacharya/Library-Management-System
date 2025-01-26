@@ -7,6 +7,38 @@ if (!isset($_SESSION['role']) || strtolower($_SESSION['role']) !== 'librarian') 
     exit;
 }
 
+// Add or Update Book Logic
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = mysqli_real_escape_string($conn, $_POST['title']);
+    $author = mysqli_real_escape_string($conn, $_POST['author']);
+    $ISBN = mysqli_real_escape_string($conn, $_POST['ISBN']);
+    $category = mysqli_real_escape_string($conn, $_POST['category']);
+    $quantity = intval($_POST['quantity']); 
+
+    // Automatically set status to Unavailable if quantity is 0
+    $status = ($quantity == 0) ? 'Unavailable' : 'Available';
+
+    // Check if book exists (if editing)
+    if (isset($_POST['edit_id'])) {
+        $edit_id = intval($_POST['edit_id']);
+        $update_query = "UPDATE books SET Title = '$title', Author = '$author', ISBN = '$ISBN', Category = '$category', Status = '$status', Quantity = $quantity WHERE B_id = $edit_id";
+        if (mysqli_query($conn, $update_query)) {
+            echo "<script>alert('Book updated successfully!'); window.location.href='manage_books.php';</script>";
+        } else {
+            echo "<script>alert('Error updating book: " . mysqli_error($conn) . "');</script>";
+        }
+    } else {
+        // Insert new book
+        $insert_query = "INSERT INTO books (Title, Author, ISBN, Category, Status, Quantity) 
+                         VALUES ('$title', '$author', '$ISBN', '$category', '$status', $quantity)";
+        if (mysqli_query($conn, $insert_query)) {
+            echo "<script>alert('Book added successfully!');</script>";
+        } else {
+            die("Error adding book: " . mysqli_error($conn));
+        }
+    }
+}
+
 // Delete Book
 if (isset($_GET['delete_id'])) {
     $delete_id = intval($_GET['delete_id']);
@@ -18,22 +50,7 @@ if (isset($_GET['delete_id'])) {
     }
 }
 
-// Edit Book
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_id'])) {
-    $edit_id = intval($_POST['edit_id']);
-    $title = mysqli_real_escape_string($conn, $_POST['title']);
-    $author = mysqli_real_escape_string($conn, $_POST['author']);
-    $quantity = mysqli_real_escape_string($conn, $_POST['quantity']);
-    
-    $update_query = "UPDATE books SET Title = '$title', Author = '$author', Quantity = '$quantity' WHERE B_id = $edit_id";
-    if (mysqli_query($conn, $update_query)) {
-        echo "<script>alert('Book updated successfully!'); window.location.href='manage_books.php';</script>";
-    } else {
-        echo "<script>alert('Error updating book: " . mysqli_error($conn) . "');</script>";
-    }
-}
-
-// Search Book
+// Search Book Logic
 $search_query = "";
 if (isset($_GET['search'])) {
     $search_query = mysqli_real_escape_string($conn, $_GET['search']);
@@ -48,7 +65,7 @@ $books_result = mysqli_query($conn, $books_query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Students</title>
+    <title>Manage Books</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -98,6 +115,7 @@ $books_result = mysqli_query($conn, $books_query);
                 <th>Title</th>
                 <th>Author</th>
                 <th>Quantity</th>
+                <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -109,6 +127,7 @@ $books_result = mysqli_query($conn, $books_query);
                         <td><?= htmlspecialchars($row['Title']); ?></td>
                         <td><?= htmlspecialchars($row['Author']); ?></td>
                         <td><?= htmlspecialchars($row['Quantity']); ?></td>
+                        <td><?= htmlspecialchars($row['Status']); ?></td>
                         <td>
                             <a href="?edit_id=<?= $row['B_id']; ?>" class="btn btn-secondary">Edit</a>
                             <a href="javascript:void(0);" class="btn btn-danger" onclick="confirmDelete('?delete_id=<?= $row['B_id']; ?>')">Delete</a>
@@ -117,7 +136,7 @@ $books_result = mysqli_query($conn, $books_query);
                 <?php endwhile; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="5">No books found.</td>
+                    <td colspan="6">No books found.</td>
                 </tr>
             <?php endif; ?>
         </tbody>

@@ -1,34 +1,34 @@
 <?php
-require 'includes/config.php';
+require '../includes/config.php';
+session_start();
 
-$amount = htmlspecialchars($_GET['amount'] ?? '0');
-$status = htmlspecialchars($_GET['status'] ?? 'Unknown');
-$mobile = htmlspecialchars($_GET['mobile'] ?? 'N/A');
-$orderId = htmlspecialchars($_GET['purchase_order_id'] ?? 'N/A');
-$orderName = htmlspecialchars($_GET['purchase_order_name'] ?? 'N/A');
+if (!isset($_GET['pidx']) || !isset($_GET['transaction_id']) || !isset($_GET['amount']) || !isset($_GET['status']) || !isset($_GET['purchase_order_id'])) {
+    echo "Invalid payment details.";
+    exit;
+}
 
-if ($orderId !== 'N/A') {
-    try {
-        $updateQuery = "UPDATE payments SET status = ?, amount = ? WHERE purchase_order_id = ?";
-        $stmt = $conn->prepare($updateQuery);
+$pidx = $_GET['pidx'];
+$transaction_id = $_GET['transaction_id'];
+$amount = $_GET['amount'];
+$status = $_GET['status'];
+$purchase_order_id = $_GET['purchase_order_id'];
 
-        if ($stmt) {
-            $stmt->bind_param("sds", $status, $amount, $orderId);
+if ($status === 'Completed') {
+    // Update payment status
+    $update_payment_query = "UPDATE payments SET status = 'Completed' WHERE purchase_order_id = ?";
+    $stmt = $conn->prepare($update_payment_query);
+    $stmt->bind_param("s", $purchase_order_id);
+    $stmt->execute();
 
-            if (!$stmt->execute()) {
-                echo "<script>alert('Failed to update payment status in the database. Please contact support.');</script>";
-            } else {
-            }
-            $stmt->close();
-        } else {
-            throw new Exception("Failed to prepare the database statement.");
-        }
-    } catch (Exception $e) {
-        error_log("Payment update error: " . $e->getMessage());
-        echo "<script>alert('An error occurred while processing your payment. Please contact support.');</script>";
-    }
+    // Update transaction status
+    $update_transaction_query = "UPDATE transaction SET Status = 'Returned', Fine = 0 WHERE payment_id = ?";
+    $stmt = $conn->prepare($update_transaction_query);
+    $stmt->bind_param("s", $purchase_order_id);
+    $stmt->execute();
+
+    echo "<script>alert('Payment successful and transaction updated.'); window.location.href='dashboard.php';</script>";
 } else {
-    echo "<script>alert('Invalid payment details received. Please contact support.');</script>";
+    echo "<script>alert('Payment failed. Please try again.'); window.location.href='pay_fine.php';</script>";
 }
 ?>
 <!DOCTYPE html>

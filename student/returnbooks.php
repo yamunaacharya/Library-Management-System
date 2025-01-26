@@ -106,8 +106,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="email">Your Email:</label><br>
                 <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($student_email); ?>" readonly><br><br>
 
+                <?php
+                // Fetch the list of issued books for the student
+                $issued_books_query = "SELECT b.Title FROM transaction t JOIN books b ON t.B_id = b.B_id WHERE t.S_email = ? AND t.Status = 'Issued'";
+                $stmt = $conn->prepare($issued_books_query);
+                $stmt->bind_param("s", $student_email);
+                $stmt->execute();
+                $issued_books_result = $stmt->get_result();
+                ?>
+
                 <label for="title">Book Title:</label><br>
-                <input type="text" id="title" name="title" required><br><br>
+                <select id="title" name="title" required>
+                    <option value="" disabled selected>Select a book</option>
+                    <?php while ($book = $issued_books_result->fetch_assoc()): ?>
+                        <option value="<?php echo htmlspecialchars($book['Title']); ?>"><?php echo htmlspecialchars($book['Title']); ?></option>
+                    <?php endwhile; ?>
+                </select><br><br>
 
                 <button type="submit" class=" btn-primary">Return Book</button>
             </form>

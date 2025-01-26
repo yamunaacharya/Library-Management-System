@@ -86,6 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <option value="Available">Available</option>
                         <option value="Reserved">Reserved</option>
                         <option value="Issued">Issued</option>
+                        <option value="Unavailable">Unavailable</option>
+                        
                     </select>
                 </div>
                 <div class="form-group">

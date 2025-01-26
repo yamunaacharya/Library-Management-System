@@ -101,12 +101,6 @@ $total_fines = mysqli_fetch_assoc($total_fines_result)['total_fines'] ?? 0.00;
                 <li><a href="adduser.php"><i class="fas fa-user-plus"></i> Add Librarian</a></li>
                 <li><a href="managelibrarian.php"><i class="fa-solid fa-users"></i> Manage Librarian</a></li>
                 <li><a href="report.php"><i class="fas fa-chart-line"></i> Reports</a></li>
-                <li class="dropdown">
-                    <a href="#" onclick="toggleDropdown()" class="dropdown-toggle"><i class="fas fa-cog"></i> Settings <i class="fa fa-chevron-down" style=" margin-left: 100px;"></i></a>
-                    <ul class="dropdown-menu" id="settingsDropdown">
-                        <li><a href="../auth/changepassword.php"><i class="fas fa-key"></i> Change Password</a></li>
-                    </ul>
-                </li>
             </ul>
         </nav>
     </aside>
