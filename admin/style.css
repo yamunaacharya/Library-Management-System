@@ -1,0 +1,706 @@
+/* DASHBOARD */
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f4f7fc;
+}
+
+
+/* Header Styling */
+.header {
+    background-color: #34495e;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+    cursor: pointer;
+    color: white;
+}
+
+.profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.profile span {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}
+
+.logout-btn {
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Report Section Styling */
+.report-section {
+    margin-left: 270px;
+    padding: 20px;
+    flex: 1;
+}
+
+.report-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.report-box {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 220px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.report-box:hover {
+    transform: translateY(-10px);
+}
+
+.report-icon {
+    font-size: 40px;
+    color: #3498db;
+    margin-bottom: 15px;
+}
+
+.report-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.report-title {
+    font-size: 16px;
+    color: #7f8c8d;
+}
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+    text-align: left;
+}
+
+.modal-close {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-close:hover {
+    background-color: #c0392b;
+}
+
+.modal h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: #34495e;
+}
+
+.modal p {
+    font-size: 16px;
+    color: #7f8c8d;
+    margin-bottom: 10px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .report-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .report-box {
+        width: 90%;
+        margin-bottom: 20px;
+    }
+
+    .header-right {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .profile {
+        margin-bottom: 15px;
+    }
+}
+
+
+
+
+/* ADDUSER */
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f4f7fc;
+}
+
+/* Main Content Styling */
+.main-content {
+    margin-left: 270px;
+    padding: 20px;
+    flex: 1;
+}
+
+/* Header Styling */
+.dashboard-header {
+    background-color: #34495e;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    margin-bottom: 30px;
+    border-radius: 10px;
+}
+
+.dashboard-header .text {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Form Styling */
+.form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-size: 16px;
+    color: #34495e;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    background-color: #f4f7fc;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+.form-control:disabled {
+    background-color: #e0e0e0;
+}
+
+/* Button Styling */
+.btn {
+    background-color: #3498db;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .form {
+        width: 90%;
+    }
+
+    .main-content {
+        margin-left: 220px;
+    }
+}
+
+
+
+/* MANAGE LIBRARIAN */
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f4f7fc;
+}
+
+/* Main Content Styling */
+.main-content {
+    margin-left: 270px;
+    padding: 20px;
+    flex: 1;
+}
+
+/* Header Styling */
+/* .dashboard-header {
+    background-color: #34495e;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    margin-bottom: 30px;
+    border-radius: 10px;
+}
+
+.dashboard-header h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Search Form Styling */
+/* .search-form {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.search-input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    width: 250px;
+}
+
+.search-input:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+.btn-primary {
+    width: 80px;
+    height: 30px;
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+} */
+
+
+/* Header Styling */
+.dashboard-header {
+    background-color: #34495e;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    margin-bottom: 30px;
+    border-radius: 10px;
+}
+
+.dashboard-header h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Search Form Styling */
+.search-form {
+    display: flex;
+    justify-content: center;  /* Center the form */
+    margin-top: 20px;
+}
+
+/* Styling for the Search Input */
+.search-input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    width: 250px;
+}
+
+.search-input:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Styling for the Search Button */
+.btn-primary {
+    width: 80px;
+    height: 40px;
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+/* Responsive Design for smaller screens */
+@media screen and (max-width: 768px) {
+    /* Adjust search form to be column layout in smaller screens */
+    .search-form {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* Full width for search input on smaller screens */
+    .search-input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    /* Center the button on smaller screens */
+    .btn-primary {
+        width: 100%;
+        padding: 12px 0;
+    }
+}
+
+/* Table Styling */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #34495e;
+    color: white;
+}
+
+.table td {
+    background-color: #fff;
+    color: #2c3e50;
+}
+
+.table tr:hover {
+    background-color: #f4f7fc;
+}
+
+.table .btn {
+    padding: 6px 12px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.table .btn-secondary {
+    background-color: #f39c12;
+    color: white;
+}
+
+.table .btn-secondary:hover {
+    background-color: #e67e22;
+}
+
+.table .btn-danger {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.table .btn-danger:hover {
+    background-color: #c0392b;
+}
+
+/* Form Styling for Edit Librarian */
+.form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    margin: 20px auto;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-size: 16px;
+    color: #34495e;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    background-color: #f4f7fc;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .main-content {
+        margin-left: 220px;
+    }
+
+    .form {
+        width: 90%;
+    }
+
+    .search-form {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+
+
+/* General body and container styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f4f7fc;
+}
+
+.container {
+    display: flex;
+    height: 100%;
+}
+
+
+/* Search Box Styling */
+.search-box {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 30px;
+}
+
+.search-input {
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    width: 250px;
+}
+
+.search-input:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+.search-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Table Styling */
+.table-bordered {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table-bordered th, .table-bordered td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.table-bordered th {
+    background-color: #34495e;
+    color: white;
+}
+
+.table-bordered td {
+    background-color: #fff;
+    color: #2c3e50;
+}
+
+.table-bordered tr:hover {
+    background-color: #f4f7fc;
+}
+
+.table-bordered .btn {
+    padding: 6px 12px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.table-bordered .btn:hover {
+    background-color: #e67e22;
+    color: white;
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-size: 16px;
+    color: #34495e;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    background-color: #f4f7fc;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+.btn {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .container1 {
+        margin-left: 220px;
+    }
+
+    .search-input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}

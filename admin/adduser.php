@@ -41,8 +41,126 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../librarian/style.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="style.css">
     <script src="../assets/js/script.js"></script>
+    <style>
+
+        /* sidebar */
+        .sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(135deg, #2c3e50, #1a252f);
+    color: white;
+    padding: 20px 10px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    overflow-y: auto;
+    transition: width 0.3s ease;
+}
+
+/* Sidebar Title */
+.sidebar h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #fff;
+    letter-spacing: 1px;
+    animation: fadeIn 0.5s ease;
+}
+
+/* Navigation Links */
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar nav ul li {
+    margin: 10px 0;
+}
+
+.sidebar nav ul li a {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: #ddd;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.sidebar nav ul li a i {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #00d1ff;
+    transition: transform 0.3s ease;
+}
+
+/* Hover Effect */
+.sidebar nav ul li a:hover {
+    background-color: #007bff;
+    color: white;
+    transform: translateX(5px);
+}
+
+.sidebar nav ul li a:hover i {
+    transform: rotate(360deg);
+}
+
+/* Active Link Styling */
+.sidebar nav ul li a.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Scrollbar Styling */
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #007bff;
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background-color: #1a252f;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+        padding: 10px;
+    }
+
+    .sidebar h1 {
+        font-size: 20px;
+    }
+
+    .sidebar nav ul li a {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+}
+
+/* Animation Effects */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+    </style>
 </head>
 <body>
   

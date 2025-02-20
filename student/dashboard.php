@@ -43,50 +43,403 @@ $total_fines = mysqli_fetch_assoc($total_fines_result)['total_fine'] ?? 0.00;
     <title>Student Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../librarian/style.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="style.css">
     <script src="../assets/js/script.js"></script>
     <style>
-        .report-section {
-            margin: 90px;
-        }
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(135deg, #2c3e50, #1a252f);
+    color: white;
+    padding: 20px 10px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    overflow-y: auto;
+    transition: width 0.3s ease;
+}
 
-        .report-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 60px;
-        }
+/* Sidebar Title */
+.sidebar h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #fff;
+    letter-spacing: 1px;
+    animation: fadeIn 0.5s ease;
+}
 
-        .report-box {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
+/* Navigation Links */
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
 
-        .report-box:hover {
-            transform: translateY(-5px);
-        }
+.sidebar nav ul li {
+    margin: 10px 0;
+}
 
-        .report-icon {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: #007bff;
-        }
+.sidebar nav ul li a {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: #ddd;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
 
-        .report-title {
-            font-size: 1.2rem;
-            color: #333;
-            margin-bottom: 5px;
-        }
+.sidebar nav ul li a i {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #00d1ff;
+    transition: transform 0.3s ease;
+}
 
-        .report-value {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #333;
-        }
+/* Hover Effect */
+.sidebar nav ul li a:hover {
+    background-color: #007bff;
+    color: white;
+    transform: translateX(5px);
+}
+
+.sidebar nav ul li a:hover i {
+    transform: rotate(360deg);
+}
+
+/* Active Link Styling */
+.sidebar nav ul li a.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Dropdown Styling */
+.dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    display: none;
+    padding-left: 20px;
+    margin-top: 5px;
+    animation: slideDown 0.3s ease;
+}
+
+.dropdown-menu li {
+    margin: 5px 0;
+}
+
+.dropdown-menu a {
+    padding: 8px 15px;
+    color: #ddd;
+    font-size: 14px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* JavaScript Toggle for Dropdown */
+.show-dropdown {
+    display: block;
+}
+
+/* Scrollbar Styling */
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #007bff;
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background-color: #1a252f;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+        padding: 10px;
+    }
+
+    .sidebar h1 {
+        font-size: 20px;
+    }
+
+    .sidebar nav ul li a {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+
+    .dropdown-toggle i {
+        margin-left: 40px;
+    }
+}
+
+/* Animation Effects */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* Header Styling */
+.header {
+    width: 80%;
+    height: 70px;
+    background: #34495e;
+    color: white;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: 1;
+    z-index: 1000;
+}
+
+/* Right Section of Header */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Profile Section */
+.profile {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.profile:hover {
+    background-color: rgba(0, 123, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 2px solid #00d1ff;
+    transition: transform 0.3s ease;
+}
+
+.profile:hover img {
+    transform: scale(1.1);
+}
+
+.profile span {
+    font-size: 16px;
+    color: white;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Logout Button */
+.logout-btn {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    font-size: 14px;
+    text-decoration: none;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #ff4d4d;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.8);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header {
+        padding: 0 10px;
+        height: 60px;
+    }
+
+    .profile img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .profile span {
+        font-size: 14px;
+    }
+
+    .logout-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+.report-section {
+    padding: 20px;
+    background-color: #f9f9f9;
+    margin-left: 260px;  /* Adjust this value based on the width of the sidebar */
+    margin-top: 50px;  /* Adjust this value to move the section down */
+}
+
+.report-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.report-box {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 30%;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.report-box:hover {
+    transform: translateY(-5px);
+}
+
+.report-icon {
+    font-size: 30px;
+    color: #3498db;
+    margin-bottom: 10px;
+}
+
+.report-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.report-title {
+    font-size: 16px;
+    color: #888888;
+}
+
+@media (max-width: 768px) {
+    .report-section {
+        margin-left: 0; /* Remove left margin on smaller screens */
+        margin-top: 20px;  /* Adjust top margin on smaller screens */
+    }
+
+    .report-box {
+        width: 45%;
+    }
+}
+
+@media (max-width: 480px) {
+    .report-box {
+        width: 100%;
+    }
+}
+/* Modal background */
+.modal {
+    display: none;  /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent black background */
+    z-index: 9999;  /* Ensure it's on top of other elements */
+}
+
+/* Modal content box */
+.modal-content {
+    position: relative;
+    margin: 10% auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    width: 400px;  /* Adjust the width as needed */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal close button */
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff4d4d;
+    border: none;
+    color: white;
+    font-size: 18px;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    background-color: #ff3333;
+}
+
+/* Modal title */
+.modal h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Modal paragraph styling */
+.modal p {
+    font-size: 16px;
+    margin: 8px 0;
+    color: #555;
+}
+
+.modal p strong {
+    color: #333;
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        width: 90%;  /* Make the modal content responsive for smaller screens */
+    }
+}
 
     </style>
+    
 </head>
 <body>
     <aside class="sidebar">

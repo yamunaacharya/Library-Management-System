@@ -1,44 +1,3 @@
-<?php
-require '../includes/config.php';
-session_start();
-
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'librarian') {
-    header("Location: ../auth/login.php");
-    exit;
-}
-
-$user_id = $_SESSION['user_id']; 
-$fullname = $_SESSION['fullname'];
-$profilePic = "../assets/images/profile.jpg"; 
-
-// Fetching user details from the database
-$query = "SELECT * FROM users WHERE id = '$user_id' AND role = 'librarian'";
-$result = mysqli_query($conn, $query);
-$user_details = mysqli_fetch_assoc($result);
-
-if (!$user_details) {
-    echo "<script>alert('Error fetching user details');</script>";
-    exit;
-}
-
-// Fetching report data
-$total_students_query = "SELECT COUNT(*) AS total_students FROM users WHERE role = 'student'";
-$total_students_result = mysqli_query($conn, $total_students_query);
-$total_students = mysqli_fetch_assoc($total_students_result)['total_students'] ?? 0;
-
-$total_books_query = "SELECT COUNT(*) AS total_books FROM books";
-$total_books_result = mysqli_query($conn, $total_books_query);
-$total_books = mysqli_fetch_assoc($total_books_result)['total_books'] ?? 0;
-
-$total_books_issued_query = "SELECT COUNT(*) AS total_issued FROM transaction WHERE Status = 'Issued'";
-$total_books_issued_result = mysqli_query($conn, $total_books_issued_query);
-$total_books_issued = mysqli_fetch_assoc($total_books_issued_result)['total_issued'] ?? 0;
-
-$total_fines_query = "SELECT SUM(amount) AS total_fines FROM payments WHERE amount > 0";
-$total_fines_result = mysqli_query($conn, $total_fines_query);
-$total_fines = mysqli_fetch_assoc($total_fines_result)['total_fines'] ?? 0.00;
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,7 +8,8 @@ $total_fines = mysqli_fetch_assoc($total_fines_result)['total_fines'] ?? 0.00;
     <link rel="stylesheet" href="style.css">
     <script src="../assets/js/script.js"></script>
     <style>
-        .sidebar {
+        /* Librarian Sidebar Styling */
+.sidebar {
     width: 250px;
     height: 100vh;
     position: fixed;
@@ -210,162 +170,9 @@ $total_fines = mysqli_fetch_assoc($total_fines_result)['total_fines'] ?? 0.00;
         transform: translateY(0);
     }
 }
-/* Header Styling */
-.header {
-    background-color: #34495e;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    position: relative;
-    z-index: 100;
-}
-
-.header-right {
-    display: flex;
-    align-items: center;
-}
-
-.profile {
-    display: flex;
-    align-items: center;
-    margin-right: 30px;
-    cursor: pointer;
-    color: white;
-}
-
-.profile img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.profile span {
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-}
-
-.logout-btn {
-    background-color: #e74c3c;
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-.logout-btn:hover {
-    background-color: #c0392b;
-}
-
-/* Report Section Styling */
-.report-section {
-    margin-top: 80px; /* Adjust to avoid overlap with header */
-    padding: 30px;
-    display: flex;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
-    justify-content: space-between;
-    gap: 20px;
-    background-color: #f4f4f4;
-}
-
-/* Container for Boxes */
-.report-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    gap: 20px;
-}
-
-.report-box {
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 25px;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    min-width: 220px; /* Ensure boxes have a minimum width */
-    height: 220px; /* Make the boxes square-shaped */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; /* Center content */
-    position: relative;
-    flex: 1; /* Allow boxes to stretch */
-    box-sizing: border-box;
-}
-
-/* Hover Effect */
-.report-box:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
-
-.report-icon {
-    font-size: 36px;
-    color: #3498db;
-    margin-bottom: 20px;
-    transition: color 0.3s ease;
-}
-
-.report-value {
-    font-size: 28px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 15px;
-}
-
-.report-title {
-    font-size: 16px;
-    color: #7d7d7d;
-    text-transform: uppercase;
-}
-
-/* Hover Effect for Icons */
-.report-box:hover .report-icon {
-    color: #007bff; /* Change icon color on hover */
-}
-
-/* Responsive Design for Report Section */
-@media (max-width: 1200px) {
-    .report-box {
-        min-height: 180px; /* Ensure content doesn't overflow */
-        height: 180px; /* Adjust for smaller screens */
-    }
-}
-
-@media (max-width: 768px) {
-    .report-section {
-        padding: 20px; /* Reduce padding on smaller screens */
-        flex-direction: column; /* Stack vertically on smaller screens */
-        align-items: center;
-    }
-
-    .report-box {
-        min-height: 150px;
-        height: 150px; /* Adjust box height for smaller screens */
-        width: 100%; /* Make each box full width on small screens */
-        margin-bottom: 15px;
-    }
-
-    .report-icon {
-        font-size: 30px; /* Slightly smaller icons */
-    }
-
-    .report-value {
-        font-size: 24px; /* Smaller value font */
-    }
-
-    .report-title {
-        font-size: 14px; /* Smaller title font */
-    }
-}
 
     </style>
+    
 </head>
 <body>
   

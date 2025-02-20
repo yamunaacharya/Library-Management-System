@@ -58,6 +58,346 @@ $students_result = mysqli_query($conn, $students_query);
             }
         }
     </script>
+    <style>
+        .sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(135deg, #2c3e50, #1a252f);
+    color: white;
+    padding: 20px 10px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    overflow-y: auto;
+    transition: width 0.3s ease;
+}
+
+/* Sidebar Title */
+.sidebar h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #fff;
+    letter-spacing: 1px;
+    animation: fadeIn 0.5s ease;
+}
+
+/* Navigation Links */
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar nav ul li {
+    margin: 10px 0;
+}
+
+.sidebar nav ul li a {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: #ddd;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.sidebar nav ul li a i {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #00d1ff;
+    transition: transform 0.3s ease;
+}
+
+/* Hover Effect */
+.sidebar nav ul li a:hover {
+    background-color: #007bff;
+    color: white;
+    transform: translateX(5px);
+}
+
+.sidebar nav ul li a:hover i {
+    transform: rotate(360deg);
+}
+
+/* Active Link Styling */
+.sidebar nav ul li a.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Dropdown Styling */
+.dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    display: none;
+    padding-left: 20px;
+    margin-top: 5px;
+    animation: slideDown 0.3s ease;
+}
+
+.dropdown-menu li {
+    margin: 5px 0;
+}
+
+.dropdown-menu a {
+    padding: 8px 15px;
+    color: #ddd;
+    font-size: 14px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* JavaScript Toggle for Dropdown */
+.show-dropdown {
+    display: block;
+}
+
+/* Scrollbar Styling */
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #007bff;
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background-color: #1a252f;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+        padding: 10px;
+    }
+
+    .sidebar h1 {
+        font-size: 20px;
+    }
+
+    .sidebar nav ul li a {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+}
+
+/* Animation Effects */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* Main Content Styling */
+.main-content {
+    margin-left: 260px; /* Sidebar width adjustment */
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+/* Header Styling */
+.dashboard-header {
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.dashboard-header h2 {
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+/* Search Form Styling */
+.search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Ensures both input and button align properly */
+    gap: 10px; /* Adds a little space between the input and button */
+    margin-top: 20px;
+    width: 100%; 
+    max-width: 600px; /* Limiting the maximum width for centering */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Search Input Styling */
+.search-input {
+    padding: 8px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 80%; /* Adjust input width */
+}
+
+/* Button Styling */
+.btn-primary {
+    padding: 6px 10px; /* Smaller padding for a compact button */
+    font-size: 1px; /* Smaller font size for the button */
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #f4f4f4;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 10px;
+    margin-left: 5px;
+}
+
+/* Button Hover Styling */
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+
+/* Table Styling */
+.table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table th,
+.table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #2c3e50;
+    color: white;
+    font-size: 16px;
+}
+
+.table tr:nth-child(even) {
+    background-color: #f4f4f4;
+}
+
+/* Buttons */
+.btn {
+    padding: 8px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Form Styling */
+.form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+}
+
+.form h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Center text when no students found */
+.text-center {
+    font-size: 18px;
+    color: #555;
+    margin-top: 30px;
+    font-style: italic;
+}
+
+    </style>
 </head>
 <body>
 <aside class="sidebar">

@@ -78,6 +78,389 @@ $books_result = mysqli_query($conn, $books_query);
             }
         }
     </script>
+    <style>
+        .sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(135deg, #2c3e50, #1a252f);
+    color: white;
+    padding: 20px 10px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    overflow-y: auto;
+    transition: width 0.3s ease;
+}
+
+/* Sidebar Title */
+.sidebar h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #fff;
+    letter-spacing: 1px;
+    animation: fadeIn 0.5s ease;
+}
+
+/* Navigation Links */
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar nav ul li {
+    margin: 10px 0;
+}
+
+.sidebar nav ul li a {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: #ddd;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.sidebar nav ul li a i {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #00d1ff;
+    transition: transform 0.3s ease;
+}
+
+/* Hover Effect */
+.sidebar nav ul li a:hover {
+    background-color: #007bff;
+    color: white;
+    transform: translateX(5px);
+}
+
+.sidebar nav ul li a:hover i {
+    transform: rotate(360deg);
+}
+
+/* Active Link Styling */
+.sidebar nav ul li a.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Dropdown Styling */
+.dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    display: none;
+    padding-left: 20px;
+    margin-top: 5px;
+    animation: slideDown 0.3s ease;
+}
+
+.dropdown-menu li {
+    margin: 5px 0;
+}
+
+.dropdown-menu a {
+    padding: 8px 15px;
+    color: #ddd;
+    font-size: 14px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* JavaScript Toggle for Dropdown */
+.show-dropdown {
+    display: block;
+}
+
+/* Scrollbar Styling */
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #007bff;
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background-color: #1a252f;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+        padding: 10px;
+    }
+
+    .sidebar h1 {
+        font-size: 20px;
+    }
+
+    .sidebar nav ul li a {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+}
+
+/* Animation Effects */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* Table Styling */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #2c3e50;
+    color: white;
+    font-weight: bold;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Form Styling */
+.form {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form h3 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+/* Button Styling */
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.dashboard-header {
+    background-color: #34495e;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: slideIn 0.6s ease-in-out;
+}
+
+.dashboard-header h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Search Form Styling */
+.search-form {
+    display: flex;
+    justify-content: center;  /* Center the form */
+    margin-top: 10px;
+}
+
+/* Styling for the Search Input */
+.search-input {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    width: 250px;
+    outline: none;
+    height: 50px;
+}
+
+.search-input:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Styling for the Search Button */
+.btn-primary {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+/* Responsive Design for smaller screens */
+@media screen and (max-width: 768px) {
+    /* Adjust search form to be column layout in smaller screens */
+    .search-form {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* Full width for search input on smaller screens */
+    .search-input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    /* Center the button on smaller screens */
+    .btn-primary {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+
+/* Animation Effect for Header */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dashboard-header {
+    animation: slideIn 0.6s ease-in-out;
+}
+
+/* Main Content Styling */
+.main-content {
+    margin-left: 250px; /* Adjust the width of the sidebar */
+    padding: 20px;
+    min-height: 100vh;
+    background-color: #f4f6f9;
+    transition: margin-left 0.3s ease;
+}
+
+/* Adjust for smaller screens (Responsive Design) */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 200px; /* Adjust for smaller screen */
+    }
+}
+
+
+    </style>
 </head>
 <body>
 <aside class="sidebar">

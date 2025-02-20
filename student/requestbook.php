@@ -96,6 +96,420 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../librarian/style.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <script src="../assets/js/script.js"></script>
+    <style>
+   /* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(135deg, #2c3e50, #1a252f);
+    color: white;
+    padding: 20px 10px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    overflow-y: auto;
+    transition: width 0.3s ease;
+}
+
+/* Sidebar Title */
+.sidebar h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #fff;
+    letter-spacing: 1px;
+    animation: fadeIn 0.5s ease;
+}
+
+/* Navigation Links */
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar nav ul li {
+    margin: 10px 0;
+}
+
+.sidebar nav ul li a {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: #ddd;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.sidebar nav ul li a i {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #00d1ff;
+    transition: transform 0.3s ease;
+}
+
+/* Hover Effect */
+.sidebar nav ul li a:hover {
+    background-color: #007bff;
+    color: white;
+    transform: translateX(5px);
+}
+
+.sidebar nav ul li a:hover i {
+    transform: rotate(360deg);
+}
+
+/* Active Link Styling */
+.sidebar nav ul li a.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Dropdown Styling */
+.dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    display: none;
+    padding-left: 20px;
+    margin-top: 5px;
+    animation: slideDown 0.3s ease;
+}
+
+.dropdown-menu li {
+    margin: 5px 0;
+}
+
+.dropdown-menu a {
+    padding: 8px 15px;
+    color: #ddd;
+    font-size: 14px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* JavaScript Toggle for Dropdown */
+.show-dropdown {
+    display: block;
+}
+
+/* Scrollbar Styling */
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #007bff;
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background-color: #1a252f;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+        padding: 10px;
+    }
+
+    .sidebar h1 {
+        font-size: 20px;
+    }
+
+    .sidebar nav ul li a {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+
+    .dropdown-toggle i {
+        margin-left: 40px;
+    }
+}
+
+/* Animation Effects */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* General styles for the main content */
+.main-content {
+    padding: 30px 40px;
+    background-color: #ecf0f1;
+    min-height: 100vh; /* Ensure it fills the screen */
+    margin-left: 220px; /* Ensure content doesn't go behind the sidebar (adjust the value based on sidebar width) */
+    transition: margin-left 0.3s ease; /* Smooth transition if the sidebar is hidden */
+    
+}
+
+/* Styling for the header section */
+.dashboard-header {
+    background: #34495e;
+    padding: 10px;
+    border-radius: 12px;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px; /* Space below the header */ 
+    margin-top: 0;  /* Remove any extra margin on top */
+    position: relative;
+    top: -30px;
+    left: 1;
+    z-index: 1000;
+}
+
+.dashboard-header h3 {
+    text-align: center;
+    margin: 0;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Form container styling */
+.container {
+    max-width: 700px;
+    margin: 0 auto; /* Center the form horizontally */
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.container:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 25px;
+}
+
+/* Label styling */
+label {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+    display: block;
+    font-weight: 600;
+}
+
+/* Input fields styling */
+input.form-control {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+input.form-control:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.7);
+    outline: none;
+}
+
+/* Button styling */
+button.btn-primary {
+    width: 100%;
+    padding: 15px;
+    background-color: #3498db;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2);
+}
+
+button.btn-primary:hover {
+    background-color: #2980b9;
+    box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
+}
+
+/* Button focus effect */
+button.btn-primary:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0; /* Remove the left margin on small screens */
+        padding: 20px;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    .dashboard-header h3 {
+        font-size: 24px;
+    }
+
+    input.form-control {
+        font-size: 14px;
+    }
+
+    button.btn-primary {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-header h3 {
+        font-size: 20px;
+    }
+}
+/* General container styles */
+.container {
+    max-width: 500px; /* Limit the width of the form */
+    margin: 0 auto;   /* Center the container horizontally */
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Horizontally center content */
+    justify-content: flex-start; /* Align form items to the top */
+    height: auto; /* Let the height adjust based on content */
+}
+
+/* Container hover effect */
+.container:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Form group styling */
+.form-group {
+    width: 100%; /* Ensure form groups take up the full width of the container */
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Label styling */
+label {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Input fields styling */
+input.form-control {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+/* Focused input styling */
+input.form-control:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.7);
+    outline: none;
+}
+
+/* Submit button styling */
+button.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2);
+}
+
+/* Button hover effect */
+button.btn-primary:hover {
+    background-color: #2980b9;
+    box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
+}
+
+/* Button focus effect */
+button.btn-primary:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    button.btn-primary {
+        font-size: 16px;
+    }
+
+    input.form-control {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    button.btn-primary {
+        font-size: 14px;
+    }
+
+    input.form-control {
+        font-size: 12px;
+    }
+}
+
+</style>
 </head>
 <body>
     <aside class="sidebar">
