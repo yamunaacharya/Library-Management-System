@@ -360,17 +360,17 @@ table tr:last-child td {
                     <th>Status</th>
                 </tr>";
 
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr>
-                    <td>" . htmlspecialchars($row['Title']) . "</td>
-                    <td>" . htmlspecialchars($row['Author']) . "</td>
-                    <td>" . htmlspecialchars($row['Issue_date']) . "</td>
-                    <td>" . htmlspecialchars($row['Due_date']) . "</td>
-                    <td>" . htmlspecialchars($row['Return_date'] === '0000-00-00' ? 'Not Returned' : $row['Return_date']) . "</td>
-                    <td>" . htmlspecialchars($row['Fine']) . "</td>
-                    <td>" . htmlspecialchars($row['Status']) . "</td>
-                  </tr>";
-        }
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>
+                            <td>" . htmlspecialchars($row['Title']) . "</td>
+                            <td>" . htmlspecialchars($row['Author']) . "</td>
+                            <td>" . htmlspecialchars($row['Issue_date']) . "</td>
+                            <td>" . htmlspecialchars($row['Due_date']) . "</td>
+                            <td>" . htmlspecialchars(($row['Status'] === 'Returned' && $row['Return_date'] === '0000-00-00') ? '-' : $row['Return_date']) . "</td>
+                            <td>" . htmlspecialchars($row['Fine']) . "</td>
+                            <td>" . htmlspecialchars($row['Status']) . "</td>
+                          </tr>";
+                }                
 
         echo "</table>";
     } else {

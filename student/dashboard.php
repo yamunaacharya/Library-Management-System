@@ -22,9 +22,11 @@ if (!$user_details) {
 }
 
 // Fetching report data
-$total_issued_books_query = "SELECT COUNT(*) AS total_issued FROM transaction WHERE S_email = '{$user_details['email']}' AND Status = 'Issued'";
+$total_issued_books_query = "SELECT COUNT(*) AS total_issued FROM transaction WHERE S_email = '{$user_details['email']}' 
+                             AND Status IN ('Issued', 'Returned')";
 $total_issued_books_result = mysqli_query($conn, $total_issued_books_query);
 $total_issued_books = mysqli_fetch_assoc($total_issued_books_result)['total_issued'] ?? 0;
+
 
 $books_not_returned_query = "SELECT COUNT(*) AS not_returned FROM transaction WHERE S_email = '{$user_details['email']}' AND Status = 'Issued' AND Due_date < CURDATE()";
 $books_not_returned_result = mysqli_query($conn, $books_not_returned_query);
