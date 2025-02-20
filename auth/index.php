@@ -338,36 +338,22 @@ footer p {
 
   <section class="features" id="features">
     <h2>Key Features</h2>
+  
     <div class="feature-item">
-        <img src="catalog-icon.png" alt="Catalog Management">
-        <h3>Catalog Management</h3>
-        <p>Easily organize books, journals, and articles.</p>
-    </div>
-    <div class="feature-item">
-        <img src="user-icon.png" alt="User Management">
+        <img src="kk.jpg" alt="User Management">
         <h3>User Management</h3>
         <p>Track users, manage book loans, and handle fines.</p>
     </div>
     <div class="feature-item">
-        <img src="analytics-icon.png" alt="Reports & Analytics">
+        <img src="ll.jpg" alt="Reports & Analytics">
         <h3>Reports & Analytics</h3>
         <p>Generate detailed reports and track activity.</p>
     </div>
     <div class="feature-item">
-        <img src="reservation-icon.png" alt="Book Reservation">
-        <h3>Book Reservation</h3>
-        <p>Allow users to reserve books online and get notified when available.</p>
-    </div>
-    <div class="feature-item">
-        <img src="search-icon.png" alt="Advanced Search">
-        <h3>Advanced Search</h3>
-        <p>Search books by title, author, genre, and more with an advanced filter.</p>
-    </div>
-    <div class="feature-item">
-        <img src="notification-icon.png" alt="Notifications & Alerts">
-        <h3>Notifications & Alerts</h3>
-        <p>Send automatic reminders for due dates and book availability.</p>
-    </div>
+        <img src="images.png" alt="Book Reservation">
+        <h3>Book Borrow</h3>
+        <p>Allow users to borrow book.</p>
+    </div> 
 </section>
 
   <footer class="footer">
