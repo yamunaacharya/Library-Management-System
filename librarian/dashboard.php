@@ -217,10 +217,15 @@ $total_fines = mysqli_fetch_assoc($total_fines_result)['total_fines'] ?? 0.00;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    position: relative;
-    z-index: 100;
+    position: fixed;
+    top: 0;
+    right: 0; /* Align header to the right */
+    left: 250px; /* Ensure header starts after the sidebar */
+    width: calc(100% - 250px); /* Adjust width to fit the remaining space */
+    z-index: 100; /* Ensure header stays on top */
 }
 
+/* Header Right Section Styling */
 .header-right {
     display: flex;
     align-items: center;
@@ -263,14 +268,16 @@ $total_fines = mysqli_fetch_assoc($total_fines_result)['total_fines'] ?? 0.00;
 
 /* Report Section Styling */
 .report-section {
-    margin-top: 80px; /* Adjust to avoid overlap with header */
+    margin-left: 270px; /* This ensures content starts after the sidebar */
+    margin-top: 80px;   /* Adjust to avoid overlap with header */
     padding: 30px;
     display: flex;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 20px;
     background-color: #f4f4f4;
 }
+
 
 /* Container for Boxes */
 .report-container {

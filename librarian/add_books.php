@@ -38,7 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../assets/css/style.css">
     <script src="../assets/js/script.js"></script>
     <style>
-         .sidebar {
+       /* Sidebar */
+.sidebar {
     width: 250px;
     height: 100vh;
     position: fixed;
@@ -206,49 +207,50 @@ html, body {
     height: 100%;
     width: 100%;
 }
-
 /* Main Content Area */
 .main-content {
-    background-color: #ffffff;
-    min-height: 100vh; /* Ensure the content takes full height of the page */
-    margin: 0; /* No margin, ensures it touches top and sides */
-    padding: 0; /* Remove any padding */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px); /* Adjust the height so it accounts for the header */
+    margin-left: 250px; /* To account for the sidebar */
+    padding: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 80px;
 }
-
 /* Dashboard Header */
 .dashboard-header {
     background-color: #34495e;
-    color: #fff;
-    padding: 25px 0;
-    text-align: center;
-    margin: 0; /* Remove margin */
-    border-radius: 0; /* Optional: remove rounded corners */
-    box-shadow: none; /* Optional: remove shadow */
+    padding: 15px 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    right: 0; /* Align header to the right */
+    left: 250px; /* Ensure header starts after the sidebar */
+    width: calc(100% - 250px); /* Adjust width to fit the remaining space */
+    z-index: 100; /* Ensure header stays on top */
 }
-
 .dashboard-header h3 {
     font-size: 28px;
     font-weight: 700;
     margin: 0;
     letter-spacing: 2px;
     text-transform: uppercase;
+    color: #f4f4f4;
 }
-
-/* Ensure the sidebar and other elements are also aligned */
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 250px;
-    background-color: #2c3e50;
-    color: white;
-    z-index: 1000;
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
     .main-content {
+        margin-left: 0; /* Remove sidebar offset for smaller screens */
+        min-height: calc(100vh - 70px); /* Adjust to avoid header overlap */
+    }
+
+    .container {
+        width: 100%;
+        max-width: 90%; /* Allow container to take more space on smaller screens */
         padding: 15px;
     }
 
@@ -256,14 +258,16 @@ html, body {
         font-size: 24px; /* Adjust font size for smaller screens */
     }
 }
-/* General container styling */
+/* Form Container */
 .container {
-    max-width: 600px;
-    margin: 0 auto;
+    width: 100%;
+    max-width: 600px; /* Maximum width of the form */
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px 0; /* Add some space from top and bottom */
+    box-sizing: border-box;
 }
 
 /* Form group styling */

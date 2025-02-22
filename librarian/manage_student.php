@@ -222,26 +222,30 @@ $students_result = mysqli_query($conn, $students_query);
 }
 /* Main Content Styling */
 .main-content {
-    margin-left: 260px; /* Sidebar width adjustment */
+    margin-left: 250px; /* Adjust the width of the sidebar */
     padding: 20px;
-    background-color: #f9f9f9;
+    min-height: 100vh;
+    background-color: #f4f6f9;
+    transition: margin-left 0.3s ease;
 }
-
-/* Header Styling */
 .dashboard-header {
-    background: #2c3e50;
-    color: white;
+    background-color: #34495e;
     padding: 20px;
-    border-radius: 10px;
+    color: white;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: slideIn 0.6s ease-in-out;
 }
 
 .dashboard-header h2 {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    margin: 0;
 }
 /* Search Form Styling */
 .search-form {
@@ -264,27 +268,78 @@ $students_result = mysqli_query($conn, $students_query);
     border: 1px solid #ccc;
     width: 80%; /* Adjust input width */
 }
+/* Refined Search Form */
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between input and button */
+    justify-content: center;
+    margin-top: 10px;
+    width: 100%;
+}
 
-/* Button Styling */
+/* Search Input */
+.search-input {
+    padding: 10px 14px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 350px;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.search-input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.6);
+}
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .search-form {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .search-input {
+        width: 100%;
+        margin: 0;
+    }
+
+    .btn-primary {
+        width: 100%;
+        justify-content: center;
+    }
+}
+/* Adjust for smaller screens (Responsive Design) */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 200px; /* Adjust for smaller screen */
+    }
+}
+
+/* Compact Search Button */
 .btn-primary {
-    padding: 6px 10px; /* Smaller padding for a compact button */
-    font-size: 1px; /* Smaller font size for the button */
+    background-color: #3498db;
+    color: white;
+    padding: 8px 12px; /* Smaller padding for compact size */
     border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: #f4f4f4;
+    border-radius: 10px;
+    font-size: 14px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 10px;
-    margin-left: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    height: 42px; /* Match input height for alignment */
+    white-space: nowrap;
 }
 
-/* Button Hover Styling */
 .btn-primary:hover {
-    background-color: #0056b3;
+    background-color: #2980b9;
+    transform: translateY(-1px);
 }
-
-
 /* Table Styling */
 .table {
     width: 100%;

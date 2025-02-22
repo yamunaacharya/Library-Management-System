@@ -79,7 +79,7 @@ $books_result = mysqli_query($conn, $books_query);
         }
     </script>
     <style>
-        .sidebar {
+       .sidebar {
     width: 250px;
     height: 100vh;
     position: fixed;
@@ -229,17 +229,6 @@ $books_result = mysqli_query($conn, $books_query);
         transform: translateY(0);
     }
 }
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-5px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 /* Table Styling */
 .table {
     width: 100%;
@@ -363,69 +352,73 @@ $books_result = mysqli_query($conn, $books_query);
     font-weight: bold;
     margin: 0;
 }
-
-/* Search Form Styling */
+/* Search Form Container */
 .search-form {
     display: flex;
-    justify-content: center;  /* Center the form */
+    align-items: center;
+    gap: 10px; /* Space between input and button */
+    justify-content: center;
     margin-top: 10px;
+    width: 100%;
+    flex-wrap: wrap;
 }
 
-/* Styling for the Search Input */
+/* Search Input */
 .search-input {
-    padding: 10px;
+    padding: 10px 14px;
     font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 350px;
     outline: none;
-    height: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .search-input:focus {
     border-color: #3498db;
-    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.6);
 }
 
-/* Styling for the Search Button */
+/* Compact Search Button */
 .btn-primary {
     background-color: #3498db;
     color: white;
-    padding: 10px 20px;
+    padding: 6px 10px; /* Smaller padding for compact size */
     border: none;
-    border-radius: 8px;
-    font-size: 16px;
+    border-radius: 10px;
+    font-size: 13px; /* Slightly smaller font */
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    height: 38px; /* Match input height */
+    white-space: nowrap;
+    transition: background-color 0.3s ease, transform 0.2s ease;
     display: flex;
     align-items: center;
 }
 
 .btn-primary:hover {
     background-color: #2980b9;
+    transform: translateY(-1px);
 }
 
-/* Responsive Design for smaller screens */
+/* Responsive Design */
 @media screen and (max-width: 768px) {
-    /* Adjust search form to be column layout in smaller screens */
     .search-form {
         flex-direction: column;
-        align-items: flex-start;
+        gap: 8px;
+        width: 100%;
     }
 
-    /* Full width for search input on smaller screens */
     .search-input {
         width: 100%;
-        margin-bottom: 10px;
     }
 
-    /* Center the button on smaller screens */
     .btn-primary {
-        width: 100%;
+        width: auto;
         justify-content: center;
     }
 }
-
 
 /* Animation Effect for Header */
 @keyframes slideIn {
@@ -458,8 +451,6 @@ $books_result = mysqli_query($conn, $books_query);
         margin-left: 200px; /* Adjust for smaller screen */
     }
 }
-
-
     </style>
 </head>
 <body>
@@ -485,6 +476,7 @@ $books_result = mysqli_query($conn, $books_query);
 <main class="main-content">
     <header class="dashboard-header">
         <h2>Manage Books</h2>
+        
         <form method="GET" action="manage_books.php" class="search-form">
             <input type="text" name="search" placeholder="Search books by title or author" value="<?= htmlspecialchars($search_query); ?>" class="search-input">
             <button type="submit" class="btn btn-primary">Search</button>
