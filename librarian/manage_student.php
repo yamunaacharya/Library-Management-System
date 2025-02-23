@@ -253,11 +253,7 @@ $students_result = mysqli_query($conn, $students_query);
     justify-content: center;
     align-items: center; /* Ensures both input and button align properly */
     gap: 10px; /* Adds a little space between the input and button */
-    margin-top: 20px;
-    width: 100%; 
-    max-width: 600px; /* Limiting the maximum width for centering */
-    margin-left: auto;
-    margin-right: auto;
+    margin-top: 20px; 
 }
 
 /* Search Input Styling */
@@ -269,14 +265,6 @@ $students_result = mysqli_query($conn, $students_query);
     width: 80%; /* Adjust input width */
 }
 /* Refined Search Form */
-.search-form {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Space between input and button */
-    justify-content: center;
-    margin-top: 10px;
-    width: 100%;
-}
 
 /* Search Input */
 .search-input {
@@ -477,10 +465,12 @@ $students_result = mysqli_query($conn, $students_query);
         <main class="main-content">
             <header class="dashboard-header">
                 <h2>Manage Registered Students</h2>
-                <form method="GET" action="manage_student.php" class="search-form">
+                <div class="search-form">
+                <form method="GET" action="manage_student.php" >
                     <input type="text" name="search" placeholder="Search students by name" value="<?= htmlspecialchars($search_query); ?>" class="search-input">
                     <button type="submit" class="btn btn-primary">Search</button>
                 </form>
+                </div>
             </header>
 
             <table class="table">

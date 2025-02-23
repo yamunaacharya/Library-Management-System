@@ -477,9 +477,11 @@ $books_result = mysqli_query($conn, $books_query);
     <header class="dashboard-header">
         <h2>Manage Books</h2>
         
-        <form method="GET" action="manage_books.php" class="search-form">
+        <form method="GET" action="manage_books.php" >
+            <div class="search-form">
             <input type="text" name="search" placeholder="Search books by title or author" value="<?= htmlspecialchars($search_query); ?>" class="search-input">
             <button type="submit" class="btn btn-primary">Search</button>
+            </div>
         </form>
     </header>
 
