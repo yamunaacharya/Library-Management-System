@@ -1,4 +1,4 @@
-signup css
+/* signup css */
 * {
     margin: 0;
     padding: 0;
@@ -45,6 +45,8 @@ body {
 .nav-links li a:hover {
     color: #007bff;
 }
+
+
 /* General Reset */
 * {
     margin: 0;

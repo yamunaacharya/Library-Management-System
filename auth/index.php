@@ -223,21 +223,7 @@ footer p {
       </button>
 
       <!-- Navbar Links -->
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link text-gray-600 hover:text-indigo-600" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-gray-600 hover:text-indigo-600" href="#">Catalog</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-gray-600 hover:text-indigo-600" href="#">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-gray-600 hover:text-indigo-600" href="#">About</a>
-          </li>
-        </ul>
+     
         <!-- Search and User Buttons -->
         <div class="d-flex align-items-center ms-lg-3">
           <button class="btn text-gray-600 hover:text-indigo-600 p-2">
@@ -365,15 +351,7 @@ footer p {
             We are a modern library management system providing seamless access to books, journals, and more.
           </p>
         </div>
-        <div class="footer-column">
-          <h3 class="footer-heading">Quick Links</h3>
-          <ul class="footer-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Catalog</a></li>
-            <li><a href="#">Membership</a></li>
-            <li><a href="#">Contact Us</a></li>
-          </ul>
-        </div>
+        
         <div class="footer-column">
           <h3 class="footer-heading">Contact</h3>
           <p>Itahari,Sunsari</p>

@@ -1,185 +1,202 @@
 /* DASHBOARD */
 /* General body styling */
+/* General Body Styling */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #f4f7fc;
+    font-family: Arial, sans-serif; /* Sets the font to Arial, with a fallback to sans-serif */
+    margin: 0; /* Removes default margin from the body */
+    padding: 0; /* Removes default padding from the body */
+    display: flex; /* Uses Flexbox for layout */
+    flex-direction: column; /* Arranges children elements in a column (vertical layout) */
+    min-height: 100vh; /* Ensures the body takes at least the full height of the viewport */
+    background-color: #f4f7fc; /* Sets a light grey-blue background color */
 }
-
 
 /* Header Styling */
 .header {
-    background-color: #34495e;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    position: relative;
-    z-index: 100;
+    background-color: #34495e; /* Sets the background color of the header to dark blue-grey */
+    padding: 15px 20px; /* Adds padding inside the header */
+    display: flex; /* Uses Flexbox to layout header contents */
+    justify-content: flex-end; /* Aligns content (like profile and logout) to the right */
+    align-items: center; /* Vertically centers content inside the header */
+    position: relative; /* Ensures proper stacking of header elements */
+    z-index: 100; /* Keeps the header above other content */
 }
 
+/* Header Right Section (Profile and Logout) */
 .header-right {
-    display: flex;
-    align-items: center;
+    display: flex; /* Uses Flexbox to layout items horizontally */
+    align-items: center; /* Vertically centers items inside the header-right section */
 }
 
+/* Profile Section (Avatar and Username) */
 .profile {
-    display: flex;
-    align-items: center;
-    margin-right: 30px;
-    cursor: pointer;
-    color: white;
+    display: flex; /* Uses Flexbox to align the image and text horizontally */
+    align-items: center; /* Vertically centers the profile items */
+    margin-right: 30px; /* Adds space to the right of the profile */
+    cursor: pointer; /* Changes the cursor to a pointer when hovering over the profile */
+    color: white; /* Makes the profile text white */
 }
 
+/* Profile Image */
 .profile img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
+    width: 40px; /* Sets a fixed width for the profile image */
+    height: 40px; /* Sets a fixed height for the profile image */
+    border-radius: 50%; /* Makes the image circular */
+    margin-right: 10px; /* Adds space between the image and the text */
 }
 
+/* Profile Username */
 .profile span {
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
+    font-size: 18px; /* Sets the font size of the username */
+    font-weight: bold; /* Makes the username bold */
+    color: white; /* Makes the username text white */
 }
 
+/* Logout Button Styling */
 .logout-btn {
-    background-color: #e74c3c;
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+    background-color: #e74c3c; /* Sets the background color of the button to red */
+    color: white; /* Sets the button text color to white */
+    padding: 10px 20px; /* Adds padding inside the button */
+    text-decoration: none; /* Removes the underline from the link */
+    border-radius: 5px; /* Rounds the corners of the button */
+    font-size: 16px; /* Sets the font size of the button text */
+    transition: background-color 0.3s ease; /* Adds a smooth background color transition on hover */
 }
 
+/* Logout Button Hover Effect */
 .logout-btn:hover {
-    background-color: #c0392b;
+    background-color: #c0392b; /* Changes the background color of the button to a darker red on hover */
 }
 
-/* Report Section Styling */
+/* Report Section Layout */
 .report-section {
-    margin-left: 270px;
-    padding: 20px;
-    flex: 1;
+    margin-left: 270px; /* Shifts the report section to the right (e.g., for a sidebar) */
+    padding: 20px; /* Adds padding around the report section */
+    flex: 1; /* Allows the report section to take up the remaining space in the layout */
 }
 
+/* Container for Report Boxes */
 .report-container {
-    display: flex;
-    justify-content: space-around;
-    gap: 20px;
-    flex-wrap: wrap;
+    display: flex; /* Uses Flexbox for layout */
+    justify-content: space-around; /* Distributes report boxes evenly with space between them */
+    gap: 20px; /* Adds a gap between each report box */
+    flex-wrap: wrap; /* Allows items to wrap onto new lines if the screen is too narrow */
 }
 
+/* Report Box Styling */
 .report-box {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    width: 220px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    background-color: #fff; /* Sets the background color of the report box to white */
+    padding: 20px; /* Adds padding inside the report box */
+    border-radius: 10px; /* Rounds the corners of the report box */
+    width: 220px; /* Sets a fixed width for each report box */
+    text-align: center; /* Centers the text inside the report box */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow around the report box */
+    transition: transform 0.3s ease; /* Adds a smooth transform effect on hover */
 }
 
+/* Hover Effect for Report Box */
 .report-box:hover {
-    transform: translateY(-10px);
+    transform: translateY(-10px); /* Moves the report box up slightly when hovered */
 }
 
+/* Icon Inside Report Box */
 .report-icon {
-    font-size: 40px;
-    color: #3498db;
-    margin-bottom: 15px;
+    font-size: 40px; /* Sets the font size of the icon inside the report box */
+    color: #3498db; /* Sets the color of the icon to blue */
+    margin-bottom: 15px; /* Adds space below the icon */
 }
 
+/* Value Inside Report Box */
 .report-value {
-    font-size: 24px;
-    font-weight: bold;
-    color: #2c3e50;
-    margin-bottom: 10px;
+    font-size: 24px; /* Sets the font size of the report value */
+    font-weight: bold; /* Makes the value text bold */
+    color: #2c3e50; /* Sets the text color to a dark grey-blue */
+    margin-bottom: 10px; /* Adds space below the value */
 }
 
+/* Title Inside Report Box */
 .report-title {
-    font-size: 16px;
-    color: #7f8c8d;
+    font-size: 16px; /* Sets the font size of the report title */
+    color: #7f8c8d; /* Sets the title text color to grey */
 }
 
 /* Modal Styling */
 .modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+    display: none; /* Initially hides the modal */
+    position: fixed; /* Fixes the modal in place, no scrolling */
+    top: 0; /* Positions the modal at the top of the screen */
+    left: 0; /* Positions the modal at the left of the screen */
+    width: 100%; /* Makes the modal take up the full width of the screen */
+    height: 100%; /* Makes the modal take up the full height of the screen */
+    background-color: rgba(0, 0, 0, 0.5); /* Sets a semi-transparent dark background for the modal */
+    justify-content: center; /* Centers the modal content horizontally */
+    align-items: center; /* Centers the modal content vertically */
+    z-index: 1000; /* Ensures the modal appears on top of other content */
 }
 
+/* Modal Content Styling */
 .modal-content {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    width: 400px;
-    text-align: left;
+    background-color: white; /* Sets the modal content background to white */
+    padding: 30px; /* Adds padding inside the modal */
+    border-radius: 10px; /* Rounds the corners of the modal */
+    width: 400px; /* Sets a fixed width for the modal content */
+    text-align: left; /* Aligns the text to the left inside the modal */
 }
 
+/* Close Button Inside Modal */
 .modal-close {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    background-color: #e74c3c; /* Sets the background color of the close button to red */
+    color: white; /* Sets the button text color to white */
+    border: none; /* Removes the default border of the button */
+    padding: 10px 20px; /* Adds padding inside the close button */
+    border-radius: 5px; /* Rounds the corners of the close button */
+    font-size: 16px; /* Sets the font size of the close button text */
+    cursor: pointer; /* Changes the cursor to a pointer when hovering over the button */
+    transition: background-color 0.3s ease; /* Adds a smooth background color transition on hover */
 }
 
+/* Close Button Hover Effect */
 .modal-close:hover {
-    background-color: #c0392b;
+    background-color: #c0392b; /* Changes the close button background color to a darker red when hovered */
 }
 
+/* Modal Heading */
 .modal h2 {
-    margin-bottom: 20px;
-    font-size: 22px;
-    color: #34495e;
+    margin-bottom: 20px; /* Adds space below the heading */
+    font-size: 22px; /* Sets the font size of the modal heading */
+    color: #34495e; /* Sets the heading text color to dark grey-blue */
 }
 
+/* Modal Paragraph */
 .modal p {
-    font-size: 16px;
-    color: #7f8c8d;
-    margin-bottom: 10px;
+    font-size: 16px; /* Sets the font size of the paragraph inside the modal */
+    color: #7f8c8d; /* Sets the paragraph text color to grey */
+    margin-bottom: 10px; /* Adds space below each paragraph */
 }
 
-/* Responsive Design */
+/* Responsive Design for Smaller Screens */
 @media screen and (max-width: 768px) {
     .sidebar {
-        width: 200px;
+        width: 200px; /* Reduces the width of the sidebar on smaller screens */
     }
 
     .report-container {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: column; /* Stacks the report boxes vertically on smaller screens */
+        align-items: center; /* Centers the report boxes horizontally */
     }
 
     .report-box {
-        width: 90%;
-        margin-bottom: 20px;
+        width: 90%; /* Makes the report boxes take up 90% of the screen width */
+        margin-bottom: 20px; /* Adds space between report boxes */
     }
 
     .header-right {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: column; /* Stacks profile and logout vertically */
+        align-items: flex-start; /* Aligns items to the left */
     }
 
     .profile {
-        margin-bottom: 15px;
+        margin-bottom: 15px; /* Adds space below the profile */
     }
 }
 
@@ -188,109 +205,118 @@ body {
 
 /* ADDUSER */
 /* General body styling */
+/* General Body Styling */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #f4f7fc;
+    font-family: Arial, sans-serif; /* Sets the font to Arial, with a fallback to sans-serif */
+    margin: 0; /* Removes default margin from the body */
+    padding: 0; /* Removes default padding from the body */
+    display: flex; /* Uses Flexbox for layout */
+    flex-direction: column; /* Arranges children elements in a column (vertical layout) */
+    min-height: 100vh; /* Ensures the body takes at least the full height of the viewport */
+    background-color: #f4f7fc; /* Sets a light grey-blue background color */
 }
 
 /* Main Content Styling */
 .main-content {
-    margin-left: 270px;
-    padding: 20px;
-    flex: 1;
+    margin-left: 270px; /* Shifts the content to the right (e.g., for a sidebar) */
+    padding: 20px; /* Adds padding inside the main content */
+    flex: 1; /* Allows the main content to take up the remaining space in the layout */
 }
 
 /* Header Styling */
 .dashboard-header {
-    background-color: #34495e;
-    padding: 20px;
-    color: white;
-    text-align: center;
-    margin-bottom: 30px;
-    border-radius: 10px;
+    background-color: #34495e; /* Sets the background color of the header to dark blue-grey */
+    padding: 15px 20px; /* Adds padding inside the header */
+    display: flex; /* Uses Flexbox to layout header contents */
+    justify-content: flex-end; /* Aligns content (like profile and logout) to the right */
+    align-items: center; /* Vertically centers content inside the header */
+    position: relative; /* Ensures proper stacking of header elements */
+    z-index: 100; /* Keeps the header above other content */
 }
 
+/* Header Text Styling */
 .dashboard-header .text {
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 24px; /* Sets the font size of the header text */
+    font-weight: bold; /* Makes the header text bold */
 }
 
 /* Form Styling */
 .form {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 0 auto;
+    background-color: white; /* Sets the background color of the form to white */
+    padding: 20px; /* Adds padding inside the form */
+    border-radius: 10px; /* Rounds the corners of the form */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow around the form */
+    max-width: 600px; /* Sets a maximum width for the form */
+    margin: 0 auto; /* Centers the form horizontally */
 }
 
+/* Form Group Styling */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 15px; /* Adds space below each form group */
 }
 
+/* Label Styling inside the Form */
 .form-group label {
-    font-size: 16px;
-    color: #34495e;
-    display: block;
-    margin-bottom: 8px;
+    font-size: 16px; /* Sets the font size of the label */
+    color: #34495e; /* Sets the label text color to dark grey-blue */
+    display: block; /* Makes the label a block element */
+    margin-bottom: 8px; /* Adds space below the label */
 }
 
+/* Input/Select/Other Form Control Styling */
 .form-control {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    margin-bottom: 15px;
-    background-color: #f4f7fc;
-    transition: border-color 0.3s ease;
+    width: 100%; /* Makes the form controls take up the full width of their container */
+    padding: 12px; /* Adds padding inside the input fields */
+    font-size: 16px; /* Sets the font size of the input text */
+    border-radius: 8px; /* Rounds the corners of the input fields */
+    border: 1px solid #ccc; /* Adds a light border to the input fields */
+    box-sizing: border-box; /* Ensures padding is included in the width/height of the elements */
+    margin-bottom: 15px; /* Adds space below each form control */
+    background-color: #f4f7fc; /* Sets a light grey-blue background for the input fields */
+    transition: border-color 0.3s ease; /* Adds a smooth transition when the border color changes */
 }
 
+/* Focused Form Control (When active) */
 .form-control:focus {
-    border-color: #3498db;
-    outline: none;
+    border-color: #3498db; /* Changes the border color to blue when the input is focused */
+    outline: none; /* Removes the default outline when the input is focused */
 }
 
+/* Disabled Form Control */
 .form-control:disabled {
-    background-color: #e0e0e0;
+    background-color: #e0e0e0; /* Changes the background color to grey for disabled fields */
 }
 
 /* Button Styling */
 .btn {
-    background-color: #3498db;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    width: 100%;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    background-color: #3498db; /* Sets the background color of the button to blue */
+    color: white; /* Sets the button text color to white */
+    padding: 12px 20px; /* Adds padding inside the button */
+    border: none; /* Removes the default border of the button */
+    border-radius: 8px; /* Rounds the corners of the button */
+    font-size: 16px; /* Sets the font size of the button text */
+    width: 100%; /* Makes the button take up the full width of its container */
+    cursor: pointer; /* Changes the cursor to a pointer when hovering over the button */
+    transition: background-color 0.3s ease; /* Adds a smooth background color transition on hover */
 }
 
+/* Button Hover Effect */
 .btn:hover {
-    background-color: #2980b9;
+    background-color: #2980b9; /* Changes the background color to a darker blue when hovered */
 }
 
-/* Responsive Design */
+/* Responsive Design for Smaller Screens */
 @media screen and (max-width: 768px) {
     .sidebar {
-        width: 200px;
+        width: 200px; /* Reduces the width of the sidebar on smaller screens */
     }
 
     .form {
-        width: 90%;
+        width: 90%; /* Makes the form take up 90% of the screen width */
     }
 
     .main-content {
-        margin-left: 220px;
+        margin-left: 220px; /* Reduces the left margin for the main content to account for smaller sidebar */
     }
 }
 
@@ -298,409 +324,368 @@ body {
 
 /* MANAGE LIBRARIAN */
 /* General body styling */
+/* General Body Styling */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #f4f7fc;
+    font-family: Arial, sans-serif; /* Sets the font to Arial, with a fallback to sans-serif */
+    margin: 0; /* Removes default margin from the body */
+    padding: 0; /* Removes default padding from the body */
+    display: flex; /* Uses Flexbox for layout */
+    flex-direction: column; /* Arranges children elements in a column (vertical layout) */
+    min-height: 100vh; /* Ensures the body takes at least the full height of the viewport */
+    background-color: #f4f7fc; /* Sets a light grey-blue background color */
 }
 
 /* Main Content Styling */
 .main-content {
-    margin-left: 270px;
-    padding: 20px;
-    flex: 1;
+    margin-left: 270px; /* Shifts the content to the right (e.g., for a sidebar) */
+    padding: 20px; /* Adds padding inside the main content */
+    flex: 1; /* Allows the main content to take up the remaining space in the layout */
 }
-
-/* Header Styling */
-/* .dashboard-header {
-    background-color: #34495e;
-    padding: 20px;
-    color: white;
-    text-align: center;
-    margin-bottom: 30px;
-    border-radius: 10px;
-}
-
-.dashboard-header h2 {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-/* Search Form Styling */
-/* .search-form {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-}
-
-.search-input {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    margin-right: 10px;
-    width: 250px;
-}
-
-.search-input:focus {
-    border-color: #3498db;
-    outline: none;
-}
-
-.btn-primary {
-    width: 80px;
-    height: 30px;
-    background-color: #3498db;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.btn-primary:hover {
-    background-color: #2980b9;
-} */
-
 
 /* Header Styling */
 .dashboard-header {
-    background-color: #34495e;
-    padding: 20px;
-    color: white;
-    text-align: center;
-    margin-bottom: 30px;
-    border-radius: 10px;
+    background-color: #34495e; /* Sets the background color of the header to dark blue-grey */
+    padding: 20px; /* Adds padding inside the header */
+    color: white; /* Sets the text color to white */
+    text-align: center; /* Centers the text inside the header */
+    margin-bottom: 30px; /* Adds space below the header */
+    border-radius: 10px; /* Rounds the corners of the header */
 }
 
+/* Header Text Styling */
 .dashboard-header h2 {
-    font-size: 24px;
-    font-weight: bold;
-    margin: 0;
+    font-size: 24px; /* Sets the font size of the header text */
+    font-weight: bold; /* Makes the header text bold */
+    margin: 0; /* Removes the default margin */
 }
 
 /* Search Form Styling */
 .search-form {
-    display: flex;
-    justify-content: center;  /* Center the form */
-    margin-top: 20px;
+    display: flex; /* Uses Flexbox for layout */
+    justify-content: center; /* Centers the form horizontally */
+    margin-top: 20px; /* Adds space above the form */
 }
 
 /* Styling for the Search Input */
 .search-input {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    margin-right: 10px;
-    width: 250px;
+    padding: 10px; /* Adds padding inside the search input */
+    font-size: 16px; /* Sets the font size for the input text */
+    border-radius: 8px; /* Rounds the corners of the search input */
+    border: 1px solid #ccc; /* Adds a light border around the input */
+    margin-right: 10px; /* Adds space to the right of the input */
+    width: 250px; /* Sets the width of the input */
 }
 
 .search-input:focus {
-    border-color: #3498db;
-    outline: none;
+    border-color: #3498db; /* Changes the border color when the input is focused */
+    outline: none; /* Removes the default outline on focus */
 }
 
 /* Styling for the Search Button */
 .btn-primary {
-    width: 80px;
-    height: 40px;
-    background-color: #3498db;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    width: 80px; /* Sets the width of the search button */
+    height: 40px; /* Sets the height of the button */
+    background-color: #3498db; /* Sets the background color to blue */
+    color: white; /* Sets the text color to white */
+    padding: 10px 20px; /* Adds padding inside the button */
+    border: none; /* Removes the default border */
+    border-radius: 8px; /* Rounds the corners of the button */
+    font-size: 16px; /* Sets the font size for the button text */
+    cursor: pointer; /* Changes the cursor to a pointer on hover */
+    transition: background-color 0.3s ease; /* Adds a smooth transition on hover */
 }
 
 .btn-primary:hover {
-    background-color: #2980b9;
-}
-
-/* Responsive Design for smaller screens */
-@media screen and (max-width: 768px) {
-    /* Adjust search form to be column layout in smaller screens */
-    .search-form {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    /* Full width for search input on smaller screens */
-    .search-input {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-
-    /* Center the button on smaller screens */
-    .btn-primary {
-        width: 100%;
-        padding: 12px 0;
-    }
+    background-color: #2980b9; /* Changes the background color when hovered */
 }
 
 /* Table Styling */
 .table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+    width: 100%; /* Makes the table take up the full width of its container */
+    border-collapse: collapse; /* Collapses the table borders into a single line */
+    margin-top: 20px; /* Adds space above the table */
 }
 
+/* Table Header and Data Cell Styling */
 .table th, .table td {
-    padding: 15px;
-    text-align: left;
-    border: 1px solid #ddd;
+    padding: 15px; /* Adds padding inside table cells */
+    text-align: left; /* Aligns the text to the left inside cells */
+    border: 1px solid #ddd; /* Adds a light grey border around each cell */
 }
 
+/* Table Header Styling */
 .table th {
-    background-color: #34495e;
-    color: white;
+    background-color: #34495e; /* Sets a dark background for the table header */
+    color: white; /* Sets the text color in the header to white */
 }
 
+/* Table Data Cell Styling */
 .table td {
-    background-color: #fff;
-    color: #2c3e50;
+    background-color: #fff; /* Sets the background color of table data cells to white */
+    color: #2c3e50; /* Sets the text color of data cells to dark grey */
 }
 
+/* Hover Effect for Table Rows */
 .table tr:hover {
-    background-color: #f4f7fc;
+    background-color: #f4f7fc; /* Changes the background color of rows on hover */
 }
 
+/* Button Styling inside Table */
 .table .btn {
-    padding: 6px 12px;
-    text-decoration: none;
-    border-radius: 8px;
-    font-size: 14px;
+    padding: 6px 12px; /* Adds padding inside the button */
+    text-decoration: none; /* Removes the default underline from links */
+    border-radius: 8px; /* Rounds the corners of the button */
+    font-size: 14px; /* Sets the font size of the button text */
 }
 
+/* Secondary Button Styling inside Table */
 .table .btn-secondary {
-    background-color: #f39c12;
-    color: white;
+    background-color: #f39c12; /* Sets the background color of secondary buttons to orange */
+    color: white; /* Sets the text color of secondary buttons to white */
 }
 
 .table .btn-secondary:hover {
-    background-color: #e67e22;
+    background-color: #e67e22; /* Changes the background color on hover */
 }
 
+/* Danger Button Styling inside Table */
 .table .btn-danger {
-    background-color: #e74c3c;
-    color: white;
+    background-color: #e74c3c; /* Sets the background color of danger buttons to red */
+    color: white; /* Sets the text color of danger buttons to white */
 }
 
 .table .btn-danger:hover {
-    background-color: #c0392b;
+    background-color: #c0392b; /* Changes the background color on hover */
 }
 
-/* Form Styling for Edit Librarian */
+/* Form Styling for Editing Librarian */
 .form {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 50%;
-    margin: 20px auto;
+    background-color: white; /* Sets the background color of the form to white */
+    padding: 20px; /* Adds padding inside the form */
+    border-radius: 10px; /* Rounds the corners of the form */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow around the form */
+    width: 50%; /* Sets the width of the form to 50% */
+    margin: 20px auto; /* Centers the form horizontally with a 20px margin on top and bottom */
 }
 
+/* Form Group Styling */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 15px; /* Adds space below each form group */
 }
 
+/* Label Styling inside the Form */
 .form-group label {
-    font-size: 16px;
-    color: #34495e;
-    display: block;
-    margin-bottom: 8px;
+    font-size: 16px; /* Sets the font size of the label */
+    color: #34495e; /* Sets the label text color to dark grey-blue */
+    display: block; /* Makes the label a block element */
+    margin-bottom: 8px; /* Adds space below the label */
 }
 
+/* Input/Select/Other Form Control Styling */
 .form-control {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    margin-bottom: 15px;
-    background-color: #f4f7fc;
-    transition: border-color 0.3s ease;
+    width: 100%; /* Makes the form controls take up the full width of their container */
+    padding: 12px; /* Adds padding inside the input fields */
+    font-size: 16px; /* Sets the font size of the input text */
+    border-radius: 8px; /* Rounds the corners of the input fields */
+    border: 1px solid #ccc; /* Adds a light border to the input fields */
+    box-sizing: border-box; /* Ensures padding is included in the width/height of the elements */
+    margin-bottom: 15px; /* Adds space below each form control */
+    background-color: #f4f7fc; /* Sets a light grey-blue background for the input fields */
+    transition: border-color 0.3s ease; /* Adds a smooth transition when the border color changes */
 }
 
+/* Focused Form Control (When active) */
 .form-control:focus {
-    border-color: #3498db;
-    outline: none;
+    border-color: #3498db; /* Changes the border color to blue when the input is focused */
+    outline: none; /* Removes the default outline when the input is focused */
 }
 
-/* Responsive Design */
+/* Responsive Design for Smaller Screens */
 @media screen and (max-width: 768px) {
     .sidebar {
-        width: 200px;
+        width: 200px; /* Reduces the width of the sidebar on smaller screens */
     }
 
     .main-content {
-        margin-left: 220px;
+        margin-left: 220px; /* Reduces the left margin for the main content to account for smaller sidebar */
     }
 
     .form {
-        width: 90%;
+        width: 90%; /* Makes the form take up 90% of the screen width */
     }
 
     .search-form {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: column; /* Stacks the search input and button vertically */
+        align-items: flex-start; /* Aligns the form items to the left */
     }
 
     .search-input {
-        width: 100%;
-        margin-bottom: 10px;
+        width: 100%; /* Makes the search input take up 100% of the screen width */
+        margin-bottom: 10px; /* Adds space below the input */
+    }
+
+    .btn-primary {
+        width: 100%; /* Makes the search button take up the full width */
+        padding: 12px 0; /* Increases the button padding for better touch targets */
     }
 }
 
 
 
+/* managebooks */
 /* General body and container styling */
+/* General Body Styling */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #f4f7fc;
+    font-family: Arial, sans-serif; /* Sets the font to Arial, with a fallback to sans-serif */
+    margin: 0; /* Removes the default margin from the body */
+    padding: 0; /* Removes the default padding from the body */
+    display: flex; /* Uses Flexbox for layout */
+    flex-direction: column; /* Arranges children elements in a column (vertical layout) */
+    min-height: 100vh; /* Ensures the body takes at least the full height of the viewport */
+    background-color: #f4f7fc; /* Sets a light grey-blue background color */
 }
 
+/* Container for Page Layout */
 .container {
-    display: flex;
-    height: 100%;
+    display: flex; /* Uses Flexbox for the layout */
+    height: 100%; /* Makes the container take up the full height of the viewport */
 }
-
 
 /* Search Box Styling */
 .search-box {
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 30px;
+    display: flex; /* Uses Flexbox for the search box layout */
+    justify-content: flex-start; /* Aligns the content to the start of the flex container */
+    margin-bottom: 30px; /* Adds space below the search box */
 }
 
+/* Search Input Styling */
 .search-input {
-    padding: 10px;
-    font-size: 20px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    margin-right: 10px;
-    width: 250px;
+    padding: 10px; /* Adds padding inside the input */
+    font-size: 20px; /* Sets the font size for the input text */
+    border-radius: 8px; /* Rounds the corners of the input */
+    border: 1px solid #ccc; /* Adds a light grey border around the input */
+    margin-right: 10px; /* Adds space to the right of the input */
+    width: 250px; /* Sets a fixed width for the input */
 }
 
+/* Styling for the Search Input when Focused */
 .search-input:focus {
-    border-color: #3498db;
-    outline: none;
+    border-color: #3498db; /* Changes the border color to blue when focused */
+    outline: none; /* Removes the default outline on focus */
 }
 
+/* Styling for the Search Button (Image inside button) */
 .search-btn img {
-    width: 20px;
-    height: 20px;
+    width: 20px; /* Sets the width of the search icon */
+    height: 20px; /* Sets the height of the search icon */
 }
 
 /* Table Styling */
 .table-bordered {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+    width: 100%; /* Makes the table take up the full width of its container */
+    border-collapse: collapse; /* Collapses the table borders into a single line */
+    margin-top: 20px; /* Adds space above the table */
 }
 
+/* Table Header and Data Cell Styling */
 .table-bordered th, .table-bordered td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #ddd;
+    padding: 12px; /* Adds padding inside table cells */
+    text-align: left; /* Aligns the text to the left inside cells */
+    border: 1px solid #ddd; /* Adds a light grey border around each cell */
 }
 
+/* Table Header Styling */
 .table-bordered th {
-    background-color: #34495e;
-    color: white;
+    background-color: #34495e; /* Sets a dark background for the table header */
+    color: white; /* Sets the text color in the header to white */
 }
 
+/* Table Data Cell Styling */
 .table-bordered td {
-    background-color: #fff;
-    color: #2c3e50;
+    background-color: #fff; /* Sets the background color of table data cells to white */
+    color: #2c3e50; /* Sets the text color of data cells to dark grey */
 }
 
+/* Hover Effect for Table Rows */
 .table-bordered tr:hover {
-    background-color: #f4f7fc;
+    background-color: #f4f7fc; /* Changes the background color of rows on hover */
 }
 
+/* Button Styling inside Table */
 .table-bordered .btn {
-    padding: 6px 12px;
-    text-decoration: none;
-    border-radius: 8px;
-    font-size: 14px;
+    padding: 6px 12px; /* Adds padding inside the button */
+    text-decoration: none; /* Removes the default underline from links */
+    border-radius: 8px; /* Rounds the corners of the button */
+    font-size: 14px; /* Sets the font size of the button text */
 }
 
+/* Button Hover Effect inside Table */
 .table-bordered .btn:hover {
-    background-color: #e67e22;
-    color: white;
+    background-color: #e67e22; /* Changes the background color on hover */
+    color: white; /* Changes the text color to white on hover */
 }
 
 /* Form Styling */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 15px; /* Adds space below each form group */
 }
 
+/* Label Styling inside the Form */
 .form-group label {
-    font-size: 16px;
-    color: #34495e;
-    display: block;
-    margin-bottom: 8px;
+    font-size: 16px; /* Sets the font size of the label */
+    color: #34495e; /* Sets the label text color to dark grey-blue */
+    display: block; /* Makes the label a block element */
+    margin-bottom: 8px; /* Adds space below the label */
 }
 
+/* Input/Select/Other Form Control Styling */
 .form-control {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    margin-bottom: 15px;
-    background-color: #f4f7fc;
-    transition: border-color 0.3s ease;
+    width: 100%; /* Makes the form controls take up the full width of their container */
+    padding: 12px; /* Adds padding inside the input fields */
+    font-size: 16px; /* Sets the font size of the input text */
+    border-radius: 8px; /* Rounds the corners of the input fields */
+    border: 1px solid #ccc; /* Adds a light border to the input fields */
+    box-sizing: border-box; /* Ensures padding is included in the width/height of the elements */
+    margin-bottom: 15px; /* Adds space below each form control */
+    background-color: #f4f7fc; /* Sets a light grey-blue background for the input fields */
+    transition: border-color 0.3s ease; /* Adds a smooth transition when the border color changes */
 }
 
+/* Focused Form Control (When active) */
 .form-control:focus {
-    border-color: #3498db;
-    outline: none;
+    border-color: #3498db; /* Changes the border color to blue when the input is focused */
+    outline: none; /* Removes the default outline when the input is focused */
 }
 
+/* Button Styling */
 .btn {
-    background-color: #3498db;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    background-color: #3498db; /* Sets the background color to blue */
+    color: white; /* Sets the text color to white */
+    padding: 10px 20px; /* Adds padding inside the button */
+    border: none; /* Removes the default border */
+    border-radius: 8px; /* Rounds the corners of the button */
+    font-size: 16px; /* Sets the font size for the button text */
+    cursor: pointer; /* Changes the cursor to a pointer on hover */
+    transition: background-color 0.3s ease; /* Adds a smooth transition on hover */
 }
 
+/* Button Hover Effect */
 .btn:hover {
-    background-color: #2980b9;
+    background-color: #2980b9; /* Changes the background color when hovered */
 }
 
-/* Responsive Design */
+/* Responsive Design for Smaller Screens */
 @media screen and (max-width: 768px) {
     .sidebar {
-        width: 200px;
+        width: 200px; /* Reduces the width of the sidebar on smaller screens */
     }
 
     .container1 {
-        margin-left: 220px;
+        margin-left: 220px; /* Reduces the left margin for the container to account for smaller sidebar */
     }
 
     .search-input {
-        width: 100%;
-        margin-bottom: 10px;
+        width: 100%; /* Makes the search input take up 100% of the screen width */
+        margin-bottom: 10px; /* Adds space below the input */
     }
 }

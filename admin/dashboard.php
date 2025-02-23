@@ -165,8 +165,7 @@ $total_fines = mysqli_fetch_assoc($total_fines_result)['total_fines'] ?? 0.00;
 }
 
     </style>
-    
-</head>
+    </head>
 <body>
   
     <aside class="sidebar">
