@@ -3,7 +3,7 @@ $host = 'localhost';
 $username = 'root';
 $password = ''; 
 $database = 'library-mgmt';
-$port = 3309; 
+$port = 3307; 
 
 $conn = mysqli_connect($host, $username, $password, $database, $port);
 
