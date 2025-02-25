@@ -48,6 +48,15 @@ $total_fines = mysqli_fetch_assoc($total_fines_result)['total_fine'] ?? 0.00;
     <link rel="stylesheet" href="style.css">
     <script src="../assets/js/script.js"></script>
     <style>
+        body {
+    font-family: Arial, sans-serif; /* Sets the font to Arial, with a fallback to sans-serif */
+    margin: 0; /* Removes default margin from the body */
+    padding: 0; /* Removes default padding from the body */
+    display: flex; /* Uses Flexbox for layout */
+    flex-direction: column; /* Arranges children elements in a column (vertical layout) */
+    min-height: 100vh; /* Ensures the body takes at least the full height of the viewport */
+    background-color: #f4f7fc; /* Sets a light grey-blue background color */
+}
 /* Sidebar Styling */
 .sidebar {
     width: 250px;
@@ -175,7 +184,6 @@ $total_fines = mysqli_fetch_assoc($total_fines_result)['total_fine'] ?? 0.00;
 @media (max-width: 768px) {
     .sidebar {
         width: 200px;
-        padding: 10px;
     }
 
     .sidebar h1 {
@@ -216,7 +224,7 @@ $total_fines = mysqli_fetch_assoc($total_fines_result)['total_fine'] ?? 0.00;
 }
 /* Header Styling */
 .header {
-    width: 80%;
+    width: calc(100% - 250px); /* Adjust width to exclude sidebar */
     height: 70px;
     background: #34495e;
     color: white;
@@ -227,7 +235,7 @@ $total_fines = mysqli_fetch_assoc($total_fines_result)['total_fine'] ?? 0.00;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     position: fixed;
     top: 0;
-    left: 1;
+    left: 250px; /* Align after sidebar */
     z-index: 1000;
 }
 
@@ -292,11 +300,56 @@ $total_fines = mysqli_fetch_assoc($total_fines_result)['total_fine'] ?? 0.00;
     box-shadow: 0 0 10px rgba(255, 77, 77, 0.8);
 }
 
+/* Container for Report Boxes */
+.report-container {
+    display: flex; /* Uses Flexbox for layout */
+    justify-content: space-around; /* Distributes report boxes evenly with space between them */
+    gap: 20px; /* Adds a gap between each report box */
+    flex-wrap: wrap; /* Allows items to wrap onto new lines if the screen is too narrow */
+}
+
+/* Report Box Styling */
+.report-box {
+    background-color: #fff; /* Sets the background color of the report box to white */
+    padding: 20px; /* Adds padding inside the report box */
+    border-radius: 10px; /* Rounds the corners of the report box */
+    width: 220px; /* Sets a fixed width for each report box */
+    text-align: center; /* Centers the text inside the report box */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow around the report box */
+    transition: transform 0.3s ease; /* Adds a smooth transform effect on hover */
+}
+
+/* Hover Effect for Report Box */
+.report-box:hover {
+    transform: translateY(-10px); /* Moves the report box up slightly when hovered */
+}
+
+/* Icon Inside Report Box */
+.report-icon {
+    font-size: 40px; /* Sets the font size of the icon inside the report box */
+    color: #3498db; /* Sets the color of the icon to blue */
+    margin-bottom: 15px; /* Adds space below the icon */
+}
+
+/* Value Inside Report Box */
+.report-value {
+    font-size: 24px; /* Sets the font size of the report value */
+    font-weight: bold; /* Makes the value text bold */
+    color: #2c3e50; /* Sets the text color to a dark grey-blue */
+    margin-bottom: 10px; /* Adds space below the value */
+}
+
+/* Title Inside Report Box */
+.report-title {
+    font-size: 16px; /* Sets the font size of the report title */
+    color: #7f8c8d; /* Sets the title text color to grey */
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .header {
-        padding: 0 10px;
-        height: 60px;
+        width: calc(100% - 200px);
+        left: 200px;
     }
 
     .profile img {
@@ -313,67 +366,17 @@ $total_fines = mysqli_fetch_assoc($total_fines_result)['total_fine'] ?? 0.00;
         font-size: 12px;
     }
 }
-.report-section {
-    padding: 20px;
-    background-color: #f9f9f9;
-    margin-left: 260px;  /* Adjust this value based on the width of the sidebar */
-    margin-top: 50px;  /* Adjust this value to move the section down */
-}
 
-.report-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-
-.report-box {
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 30%;
-    padding: 20px;
-    text-align: center;
-    margin-bottom: 20px;
-    transition: transform 0.3s ease;
-}
-
-.report-box:hover {
-    transform: translateY(-5px);
-}
-
-.report-icon {
-    font-size: 30px;
-    color: #3498db;
-    margin-bottom: 10px;
-}
-
-.report-value {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333333;
-    margin-bottom: 10px;
-}
-
-.report-title {
-    font-size: 16px;
-    color: #888888;
-}
-
-@media (max-width: 768px) {
-    .report-section {
-        margin-left: 0; /* Remove left margin on smaller screens */
-        margin-top: 20px;  /* Adjust top margin on smaller screens */
-    }
-
-    .report-box {
-        width: 45%;
-    }
-}
 
 @media (max-width: 480px) {
-    .report-box {
-        width: 100%;
+    .sidebar {
+        width: 100px;
     }
+    .header {
+        width: calc(100% - 100px);
+        left: 100px;
+    }
+
 }
 /* Modal background */
 .modal {
