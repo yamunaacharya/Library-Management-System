@@ -392,7 +392,7 @@ h3 {
 
 <div class="main-content">
 <header class="dashboard-header">
-                <h2 class="text">Add New Librarian</h2>
+                <h2 class="text">Admin Generate Reports</h2>
             </header>
 
     <?php if (!$reportType): ?>

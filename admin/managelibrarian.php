@@ -32,11 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_id'])) {
 }
 
 $search_query = "";
-if (isset($_GET['search'])) {
+if (isset($_GET['search']) && !empty($_GET['search'])) {
     $search_query = mysqli_real_escape_string($conn, $_GET['search']);
+    $librarians_query = "SELECT * FROM users WHERE role = 'Librarian' AND fullname LIKE '%$search_query%'";
+} else {
+    $librarians_query = "SELECT * FROM users WHERE role = 'Librarian'";
 }
 
-$librarians_query = "SELECT * FROM users WHERE role = 'Librarian'";
 $librarians_result = mysqli_query($conn, $librarians_query);
 ?>
 

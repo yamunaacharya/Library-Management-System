@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <header class="dashboard-header">
                 <h2 class="text">Add New Librarian</h2>
             </header>
-            <form method="POST" class="form">
+            <form  action="managelibrarian.php" method="POST" class="form">
                 <div class="form-group">
                     <label for="fullname">Full Name</label>
                     <input type="text" class="form-control" name="fullname" id="fullname" placeholder="Full name" required>

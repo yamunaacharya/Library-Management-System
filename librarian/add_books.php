@@ -353,7 +353,7 @@ button[type="submit"] {
             <h3 class="text-center">Add New Book</h3><br>
         </header>
         <div class="container">
-            <form action="" method="post">
+            <form action="manage_books.php" method="post">
                 <div class="form-group">
                     <label for="title">Book Title</label>
                     <input type="text" class="form-control" name="title" placeholder="Enter book title" required>
