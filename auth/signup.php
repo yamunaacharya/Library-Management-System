@@ -37,12 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 <body>
 <nav class="navbar">
         <div class="logo">LibraryHub</div>
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Catalog</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">About</a></li>
-        </ul>
     </nav>
     <div class="container mt-5">
         <h1 class="text-center">Signup</h1>

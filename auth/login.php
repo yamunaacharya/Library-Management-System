@@ -1,5 +1,5 @@
 <?php
-require '../includes/config.php'; 
+require '../includes/config.php';
 
 session_start();
 
@@ -51,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,20 +59,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <nav class="navbar">
         <div class="logo">LibraryHub</div>
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Catalog</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">About</a></li>
-        </ul>
     </nav>
 
     <div class="container mt-5">
         <h1 class="text-center">Login</h1>
-        
+
         <?php if (isset($error_message)): ?>
             <div class="alert alert-danger text-center">
                 <?php echo $error_message; ?>
@@ -87,10 +83,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <label for="password">Password</label>
                 <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password" required>
             </div>
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select class="form-control" name="role" id="role" required>
+                    <option value="">Select Role</option>
+                    <option value="student">Student</option>
+                    <option value="librarian">Librarian</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary btn-block">Login</button>
         </form>
 
         <p class="text-center">Don't have an account? <a href="signup.php">Sign Up here</a></p>
     </div>
 </body>
+
 </html>

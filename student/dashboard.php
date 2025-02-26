@@ -300,6 +300,7 @@ $total_fines = mysqli_fetch_assoc($total_fines_result)['total_fine'] ?? 0.00;
     box-shadow: 0 0 10px rgba(255, 77, 77, 0.8);
 }
 
+
 /* Container for Report Boxes */
 .report-container {
     display: flex; /* Uses Flexbox for layout */
@@ -312,8 +313,7 @@ $total_fines = mysqli_fetch_assoc($total_fines_result)['total_fine'] ?? 0.00;
 .report-box {
     background-color: #fff; /* Sets the background color of the report box to white */
     padding: 20px; /* Adds padding inside the report box */
-    border-radius: 10px; /* Rounds the corners of the report box */
-    width: 220px; /* Sets a fixed width for each report box */
+    border-radius: 10px; /* Rounds the corners of the report box */ /* Sets a fixed width for each report box */
     text-align: center; /* Centers the text inside the report box */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow around the report box */
     transition: transform 0.3s ease; /* Adds a smooth transform effect on hover */
@@ -499,7 +499,7 @@ $total_fines = mysqli_fetch_assoc($total_fines_result)['total_fine'] ?? 0.00;
     <div id="profileModal" class="modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeProfileModal()">Close</button>
-            <h2>Your Profile Details</h2>
+            <h3>Your Profile Details</h3>
             <p><strong>Full Name:</strong> <?php echo htmlspecialchars($user_details['fullname']); ?></p>
             <p><strong>Email:</strong> <?php echo htmlspecialchars($user_details['email']); ?></p>
             <p><strong>Phone:</strong> <?php echo htmlspecialchars($user_details['phone']); ?></p>

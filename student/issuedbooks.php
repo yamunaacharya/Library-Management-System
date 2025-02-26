@@ -201,6 +201,7 @@ $result = $stmt->get_result();
 /* Body and overall layout */
 body {
     display: flex;
+    font-family: Arial, sans-serif;
     justify-content: center;
     align-items: flex-start;
     height: 100vh;

@@ -247,14 +247,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 /* Body Styling */
 body {
-    display: flex;
-    justify-content: center;  /* Centers the content horizontally */
-    align-items: flex-start;  /* Aligns the content at the top */
-    min-height: 100vh;  /* Ensures the body covers full viewport height */
-    margin: 0;
-    background-color: #f4f4f4;
-    padding-left: 250px; /* Adjust based on the sidebar's width */
-    box-sizing: border-box;
+    font-family: Arial, sans-serif; /* Sets the font to Arial, with a fallback to sans-serif */
+    margin: 0; /* Removes default margin from the body */
+    padding: 0; /* Removes default padding from the body */
+    display: flex; /* Uses Flexbox for layout */
+    flex-direction: column; /* Arranges children elements in a column (vertical layout) */
+    min-height: 100vh; /* Ensures the body takes at least the full height of the viewport */
+    background-color: #f4f7fc; /* Sets a light grey-blue background color */
 }
 
 /* Main Content Container */

@@ -397,6 +397,15 @@ button.btn-primary:focus {
         font-size: 20px;
     }
 }
+body {
+    font-family: Arial, sans-serif; /* Sets the font to Arial, with a fallback to sans-serif */
+    margin: 0; /* Removes default margin from the body */
+    padding: 0; /* Removes default padding from the body */
+    display: flex; /* Uses Flexbox for layout */
+    flex-direction: column; /* Arranges children elements in a column (vertical layout) */
+    min-height: 100vh; /* Ensures the body takes at least the full height of the viewport */
+    background-color: #f4f7fc; /* Sets a light grey-blue background color */
+}
 /* General container styles */
 .container {
     max-width: 500px; /* Limit the width of the form */
